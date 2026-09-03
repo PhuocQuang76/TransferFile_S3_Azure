@@ -1,0 +1,767 @@
+2026-09-02 18:11:54,079 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 18:11:54,079 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 18:11:54,144 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 18:11:54,145 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 18:11:54,189 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 18:11:54,519 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 18:11:54,526 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 18:11:54,528 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 18:11:54,532 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 18:11:54,533 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Starting...
+2026-09-02 18:11:54,544 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-12 - Added connection com.mysql.cj.jdbc.ConnectionImpl@616a205c
+2026-09-02 18:11:54,544 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Start completed.
+2026-09-02 18:11:54,553 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 18:11:54,553 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:11:54,566 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 18:11:54,566 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 18:11:54,606 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 18:11:54,614 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 18:11:54,616 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.641 seconds (process running for 1710.553)
+2026-09-02 18:11:54,616 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 18:11:54,616 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 18:11:54,616 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 18:11:54,616 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 18:11:54,616 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 18:11:54,616 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 18:11:54,616 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 18:11:54,616 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 18:11:54,616 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 18:11:54,617 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 18:11:54,617 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 18:11:54,617 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 18:11:54,617 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 18:11:59,042 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 18:12:01,147 [Thread-122] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:12:01,152 [Thread-122] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Shutdown initiated...
+2026-09-02 18:12:01,161 [Thread-122] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-12 - Shutdown completed.
+2026-09-02 18:12:01,261 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 18:12:01,261 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 18:12:01,318 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 18:12:01,319 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 18:12:01,355 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 18:12:01,669 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 18:12:01,678 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 18:12:01,680 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 18:12:01,684 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 18:12:01,685 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Starting...
+2026-09-02 18:12:01,707 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-13 - Added connection com.mysql.cj.jdbc.ConnectionImpl@37d0b64a
+2026-09-02 18:12:01,707 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Start completed.
+2026-09-02 18:12:01,724 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 18:12:01,724 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:12:01,734 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 18:12:01,734 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 18:12:01,767 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 18:12:01,774 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 18:12:01,775 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.529 seconds (process running for 1717.71)
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 18:12:01,776 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 18:12:01,776 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 18:12:13,260 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 18:12:15,340 [Thread-141] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:12:15,341 [Thread-141] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Shutdown initiated...
+2026-09-02 18:12:15,343 [Thread-141] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-13 - Shutdown completed.
+2026-09-02 18:12:15,438 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 18:12:15,438 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 18:12:15,498 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 18:12:15,500 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 18:12:15,540 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 18:12:15,817 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 18:12:15,827 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 18:12:15,829 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 18:12:15,833 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 18:12:15,833 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Starting...
+2026-09-02 18:12:15,844 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-14 - Added connection com.mysql.cj.jdbc.ConnectionImpl@704fd08
+2026-09-02 18:12:15,844 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Start completed.
+2026-09-02 18:12:15,857 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 18:12:15,857 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:12:15,867 [restartedMain] WARN  o.s.b.w.r.c.AnnotationConfigReactiveWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transferController' defined in file [/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes/com/synergisticit/filetransfer/controler/TransferController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'transferService' defined in class path resource [com/synergisticit/filetransfer/config/TransferConfig.class]: Unsatisfied dependency expressed through method 'transferService' parameter 1: Error creating bean with name 'azureBlobService' defined in file [/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes/com/synergisticit/filetransfer/service/AzureBlobService.class]: Failed to instantiate [com.synergisticit.filetransfer.service.AzureBlobService]: Constructor threw exception
+2026-09-02 18:12:17,924 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:12:17,924 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown initiated...
+2026-09-02 18:12:17,925 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-14 - Shutdown completed.
+2026-09-02 18:12:17,928 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-09-02 18:12:17,929 [restartedMain] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transferController' defined in file [/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes/com/synergisticit/filetransfer/controler/TransferController.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'transferService' defined in class path resource [com/synergisticit/filetransfer/config/TransferConfig.class]: Unsatisfied dependency expressed through method 'transferService' parameter 1: Error creating bean with name 'azureBlobService' defined in file [/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes/com/synergisticit/filetransfer/service/AzureBlobService.class]: Failed to instantiate [com.synergisticit.filetransfer.service.AzureBlobService]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1375)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1212)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:971)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext.refresh(ReactiveWebServerApplicationContext.java:66)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.synergisticit.filetransfer.FiletransferApplication.main(FiletransferApplication.java:16)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'transferService' defined in class path resource [com/synergisticit/filetransfer/config/TransferConfig.class]: Unsatisfied dependency expressed through method 'transferService' parameter 1: Error creating bean with name 'azureBlobService' defined in file [/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes/com/synergisticit/filetransfer/service/AzureBlobService.class]: Failed to instantiate [com.synergisticit.filetransfer.service.AzureBlobService]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:542)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1355)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1185)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 24 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'azureBlobService' defined in file [/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes/com/synergisticit/filetransfer/service/AzureBlobService.class]: Failed to instantiate [com.synergisticit.filetransfer.service.AzureBlobService]: Constructor threw exception
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:318)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:306)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1375)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1212)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.addCandidateEntry(DefaultListableBeanFactory.java:1689)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.findAutowireCandidates(DefaultListableBeanFactory.java:1653)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveMultipleBeanMap(DefaultListableBeanFactory.java:1575)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveMultipleBeans(DefaultListableBeanFactory.java:1514)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1392)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782)
+	... 38 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.synergisticit.filetransfer.service.AzureBlobService]: Constructor threw exception
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:221)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:117)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:315)
+	... 56 common frames omitted
+Caused by: java.lang.Error: Unresolved compilation problems: 
+	Cannot infer type argument(s) for <R> flatMap(Function<? super T,? extends Mono<? extends R>>)
+	The method onErrorReturn(Boolean) in the type Mono<Boolean> is not applicable for the arguments ((<no type> e) -> {})
+	The target type of this expression must be a functional interface
+
+	at com.synergisticit.filetransfer.service.AzureBlobService.<init>(AzureBlobService.java:50)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+	at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:499)
+	at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:480)
+	at org.springframework.beans.BeanUtils.instantiateClass(BeanUtils.java:208)
+	... 58 common frames omitted
+2026-09-02 18:12:33,505 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 18:12:33,505 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 18:12:33,577 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 18:12:33,578 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 18:12:33,641 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 18:12:33,913 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 18:12:33,921 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 18:12:33,924 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 18:12:33,929 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 18:12:33,930 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Starting...
+2026-09-02 18:12:33,949 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-15 - Added connection com.mysql.cj.jdbc.ConnectionImpl@570b203a
+2026-09-02 18:12:33,949 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Start completed.
+2026-09-02 18:12:33,965 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 18:12:33,965 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:12:33,981 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 18:12:33,981 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 18:12:34,019 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 18:12:34,025 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 18:12:34,028 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.545 seconds (process running for 1749.96)
+2026-09-02 18:12:34,028 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 18:12:34,028 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 18:12:34,029 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 18:12:34,029 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 18:12:34,029 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 18:12:34,029 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 18:12:34,029 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 18:12:34,029 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 18:12:34,029 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 18:12:34,029 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 18:12:34,029 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 18:12:34,029 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 18:12:34,029 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 18:16:10,152 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (1 addition, 0 deletions, 0 modifications)
+2026-09-02 18:16:12,249 [Thread-157] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:16:12,261 [Thread-157] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown initiated...
+2026-09-02 18:16:12,292 [Thread-157] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-15 - Shutdown completed.
+2026-09-02 18:16:12,469 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 18:16:12,469 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 18:16:12,548 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 18:16:12,549 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 18:16:12,619 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 18:16:12,936 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 18:16:12,947 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 18:16:12,949 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 18:16:12,958 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 18:16:12,959 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Starting...
+2026-09-02 18:16:12,974 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-16 - Added connection com.mysql.cj.jdbc.ConnectionImpl@403b354f
+2026-09-02 18:16:12,974 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Start completed.
+2026-09-02 18:16:12,987 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 18:16:12,987 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:16:13,006 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 18:16:13,006 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 18:16:13,048 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 18:16:13,055 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.603 seconds (process running for 1968.985)
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 18:16:13,057 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 18:16:13,057 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 18:18:56,905 [HikariPool-16 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-16 - Thread starvation or clock leap detected (housekeeper delta=2m43s804ms).
+2026-09-02 18:24:49,262 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 18:24:51,396 [Thread-176] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:24:51,402 [Thread-176] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Shutdown initiated...
+2026-09-02 18:24:51,405 [Thread-176] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-16 - Shutdown completed.
+2026-09-02 18:24:51,602 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 18:24:51,602 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 18:24:51,680 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 18:24:51,682 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 18:24:51,740 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 18:24:52,080 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 18:24:52,090 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 18:24:52,092 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 18:24:52,096 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 18:24:52,097 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Starting...
+2026-09-02 18:24:52,113 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-17 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6765e027
+2026-09-02 18:24:52,113 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Start completed.
+2026-09-02 18:24:52,123 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 18:24:52,123 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:24:52,144 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 18:24:52,144 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 18:24:52,183 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 18:24:52,190 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.606 seconds (process running for 2354.325)
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 18:24:52,193 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 18:24:52,193 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 18:24:53,593 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 18:24:55,659 [Thread-192] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:24:55,660 [Thread-192] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Shutdown initiated...
+2026-09-02 18:24:55,662 [Thread-192] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-17 - Shutdown completed.
+2026-09-02 18:24:55,765 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 18:24:55,765 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 18:24:55,816 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 18:24:55,818 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 18:24:55,889 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 18:24:56,205 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 18:24:56,215 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 18:24:56,217 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 18:24:56,222 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 18:24:56,224 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-18 - Starting...
+2026-09-02 18:24:56,247 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-18 - Added connection com.mysql.cj.jdbc.ConnectionImpl@47b461b1
+2026-09-02 18:24:56,247 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-18 - Start completed.
+2026-09-02 18:24:56,255 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 18:24:56,255 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:24:56,268 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 18:24:56,268 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 18:24:56,308 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 18:24:56,315 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 18:24:56,317 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.569 seconds (process running for 2358.449)
+2026-09-02 18:24:56,317 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 18:24:56,317 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 18:24:56,318 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 18:24:56,318 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 18:24:56,318 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 18:24:56,318 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 18:24:56,318 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 18:24:56,318 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 18:24:56,318 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 18:24:56,318 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 18:24:56,318 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 18:24:56,318 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 18:24:56,318 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 18:38:38,340 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 18:38:40,577 [Thread-208] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:38:40,584 [Thread-208] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-18 - Shutdown initiated...
+2026-09-02 18:38:40,591 [Thread-208] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-18 - Shutdown completed.
+2026-09-02 18:38:40,826 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 18:38:40,826 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 18:38:40,906 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 18:38:40,909 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 3 ms. Found 0 JPA repository interfaces.
+2026-09-02 18:38:40,966 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 18:38:41,297 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 18:38:41,306 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 18:38:41,308 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 18:38:41,312 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 18:38:41,313 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-19 - Starting...
+2026-09-02 18:38:41,334 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Added connection com.mysql.cj.jdbc.ConnectionImpl@51e31f7a
+2026-09-02 18:38:41,334 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-19 - Start completed.
+2026-09-02 18:38:41,347 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 18:38:41,347 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 18:38:41,383 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 18:38:41,383 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 18:38:41,429 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 18:38:41,435 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 18:38:41,437 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.653 seconds (process running for 3183.562)
+2026-09-02 18:38:41,437 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 18:38:41,437 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 18:38:41,437 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 18:38:41,437 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 18:38:41,437 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 18:38:41,437 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 18:38:41,437 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 18:38:41,438 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 18:38:41,438 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 18:38:41,438 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 18:38:41,438 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 18:38:41,438 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 18:38:41,438 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 19:38:16,916 [HikariPool-19 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Thread starvation or clock leap detected (housekeeper delta=59m35s473ms).
+2026-09-02 19:43:37,683 [HikariPool-19 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Thread starvation or clock leap detected (housekeeper delta=4m50s755ms).
+2026-09-02 19:47:19,941 [HikariPool-19 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Thread starvation or clock leap detected (housekeeper delta=2m35s160ms).
+2026-09-02 19:51:13,815 [HikariPool-19 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Thread starvation or clock leap detected (housekeeper delta=3m53s874ms).
+2026-09-02 20:05:05,382 [HikariPool-19 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Thread starvation or clock leap detected (housekeeper delta=13m21s558ms).
+2026-09-02 20:31:57,352 [HikariPool-19 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Thread starvation or clock leap detected (housekeeper delta=26m21s963ms).
+2026-09-02 20:35:07,524 [HikariPool-19 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Thread starvation or clock leap detected (housekeeper delta=1m40s130ms).
+2026-09-02 20:41:30,674 [HikariPool-19 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Thread starvation or clock leap detected (housekeeper delta=2m49s488ms).
+2026-09-02 21:00:39,802 [HikariPool-19 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Thread starvation or clock leap detected (housekeeper delta=1m8s638ms).
+2026-09-02 21:04:00,608 [HikariPool-19 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-19 - Thread starvation or clock leap detected (housekeeper delta=1m50s380ms).
+2026-09-02 21:23:37,336 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 21:23:39,583 [Thread-224] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 21:23:39,601 [Thread-224] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-19 - Shutdown initiated...
+2026-09-02 21:23:39,604 [Thread-224] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-19 - Shutdown completed.
+2026-09-02 21:23:39,867 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 21:23:39,867 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 21:23:39,938 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 21:23:39,939 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 21:23:39,989 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 21:23:40,312 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 21:23:40,341 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 21:23:40,346 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 21:23:40,358 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 21:23:40,359 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-20 - Starting...
+2026-09-02 21:23:40,385 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-20 - Added connection com.mysql.cj.jdbc.ConnectionImpl@346da269
+2026-09-02 21:23:40,385 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-20 - Start completed.
+2026-09-02 21:23:40,402 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 21:23:40,403 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 21:23:40,434 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 21:23:40,434 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 21:23:40,492 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 21:23:40,499 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 21:23:40,501 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.657 seconds (process running for 6271.461)
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 21:23:40,502 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 21:23:40,502 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 21:24:18,220 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 21:24:20,291 [Thread-240] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 21:24:20,293 [Thread-240] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-20 - Shutdown initiated...
+2026-09-02 21:24:20,301 [Thread-240] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-20 - Shutdown completed.
+2026-09-02 21:24:20,412 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 21:24:20,412 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 21:24:20,467 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 21:24:20,468 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 21:24:20,505 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 21:24:20,822 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 21:24:20,840 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 21:24:20,843 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 21:24:20,848 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 21:24:20,848 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-21 - Starting...
+2026-09-02 21:24:20,866 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-21 - Added connection com.mysql.cj.jdbc.ConnectionImpl@46fdb94
+2026-09-02 21:24:20,867 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-21 - Start completed.
+2026-09-02 21:24:20,878 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 21:24:20,879 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 21:24:20,889 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 21:24:20,889 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 21:24:20,924 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 21:24:20,931 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 21:24:20,932 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.532 seconds (process running for 6311.894)
+2026-09-02 21:24:20,932 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 21:24:20,933 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 21:24:20,933 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 21:31:28,722 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 21:31:30,794 [Thread-256] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 21:31:30,796 [Thread-256] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-21 - Shutdown initiated...
+2026-09-02 21:31:30,798 [Thread-256] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-21 - Shutdown completed.
+2026-09-02 21:31:30,893 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 21:31:30,893 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 21:31:30,951 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 21:31:30,953 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 21:31:30,999 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 21:31:31,325 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 21:31:31,341 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 21:31:31,344 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 21:31:31,349 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 21:31:31,350 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Starting...
+2026-09-02 21:31:31,375 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-22 - Added connection com.mysql.cj.jdbc.ConnectionImpl@603d9149
+2026-09-02 21:31:31,375 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Start completed.
+2026-09-02 21:31:31,387 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 21:31:31,387 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 21:31:31,410 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 21:31:31,410 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 21:31:31,451 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 21:31:31,457 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 21:31:31,459 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.579 seconds (process running for 6742.331)
+2026-09-02 21:31:31,459 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 21:31:31,459 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 21:31:31,459 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 21:31:31,459 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 21:31:31,460 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 21:31:31,460 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 21:31:31,460 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 21:31:31,460 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 21:31:31,460 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 21:31:31,460 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 21:31:31,460 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 21:31:31,460 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 21:31:31,460 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 21:34:07,098 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 2 class path changes (0 additions, 0 deletions, 2 modifications)
+2026-09-02 21:34:09,168 [Thread-272] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 21:34:09,171 [Thread-272] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Shutdown initiated...
+2026-09-02 21:34:09,175 [Thread-272] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-22 - Shutdown completed.
+2026-09-02 21:34:09,264 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 21:34:09,264 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 21:34:09,322 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 21:34:09,323 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 21:34:09,363 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 21:34:09,684 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 21:34:09,702 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 21:34:09,705 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 21:34:09,711 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 21:34:09,711 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-23 - Starting...
+2026-09-02 21:34:09,726 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-23 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3ce02422
+2026-09-02 21:34:09,726 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-23 - Start completed.
+2026-09-02 21:34:09,739 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 21:34:09,740 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 21:34:09,756 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 21:34:09,756 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 21:34:09,799 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 21:34:09,806 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 21:34:09,808 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.564 seconds (process running for 6900.678)
+2026-09-02 21:34:09,808 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 21:34:09,808 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 21:34:09,808 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 21:34:09,808 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 21:34:09,808 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 21:34:09,808 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 21:34:09,808 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 21:34:09,808 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 21:34:09,808 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 21:34:09,809 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 21:34:09,809 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 21:34:09,809 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 21:34:09,809 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 22:23:21,977 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 22:23:24,145 [Thread-288] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 22:23:24,156 [Thread-288] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-23 - Shutdown initiated...
+2026-09-02 22:23:24,161 [Thread-288] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-23 - Shutdown completed.
+2026-09-02 22:23:24,526 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 22:23:24,526 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 22:23:24,654 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 22:23:24,656 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 22:23:24,738 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 22:23:25,081 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 22:23:25,095 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 22:23:25,099 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 22:23:25,107 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 22:23:25,108 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-24 - Starting...
+2026-09-02 22:23:25,131 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-24 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6b5ae2dd
+2026-09-02 22:23:25,131 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-24 - Start completed.
+2026-09-02 22:23:25,145 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 22:23:25,145 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 22:23:25,168 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 22:23:25,168 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 22:23:25,220 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 22:23:25,226 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.727 seconds (process running for 9856.056)
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 22:23:25,229 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 22:23:25,229 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 22:24:23,692 [HikariPool-24 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-24 - Thread starvation or clock leap detected (housekeeper delta=58s456ms).
+2026-09-02 22:25:36,990 [HikariPool-24 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-24 - Thread starvation or clock leap detected (housekeeper delta=1m13s300ms).
+2026-09-02 22:30:15,829 [HikariPool-24 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-24 - Thread starvation or clock leap detected (housekeeper delta=4m8s830ms).
+2026-09-02 22:33:46,607 [HikariPool-24 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-24 - Thread starvation or clock leap detected (housekeeper delta=3m30s776ms).
+2026-09-02 22:40:57,624 [HikariPool-24 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-24 - Thread starvation or clock leap detected (housekeeper delta=3m40s964ms).
+2026-09-02 22:59:02,974 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 22:59:05,547 [Thread-304] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 22:59:05,567 [Thread-304] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-24 - Shutdown initiated...
+2026-09-02 22:59:05,572 [Thread-304] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-24 - Shutdown completed.
+2026-09-02 22:59:05,920 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 22:59:05,920 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 22:59:05,989 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 22:59:05,991 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 22:59:06,039 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 22:59:06,358 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 22:59:06,370 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 22:59:06,372 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 22:59:06,378 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 22:59:06,379 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-25 - Starting...
+2026-09-02 22:59:06,446 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-25 - Added connection com.mysql.cj.jdbc.ConnectionImpl@38007343
+2026-09-02 22:59:06,446 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-25 - Start completed.
+2026-09-02 22:59:06,460 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 22:59:06,461 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 22:59:06,485 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 22:59:06,485 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 22:59:06,547 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 22:59:06,554 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.654 seconds (process running for 11324.391)
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 22:59:06,556 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 22:59:06,557 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 23:15:19,739 [HikariPool-25 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-25 - Thread starvation or clock leap detected (housekeeper delta=5m3s305ms).
+2026-09-02 23:33:45,141 [HikariPool-25 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-25 - Thread starvation or clock leap detected (housekeeper delta=11m25s333ms).
+2026-09-02 23:38:37,120 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 23:38:39,365 [Thread-320] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 23:38:39,376 [Thread-320] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-25 - Shutdown initiated...
+2026-09-02 23:38:39,381 [Thread-320] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-25 - Shutdown completed.
+2026-09-02 23:38:39,674 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 23:38:39,674 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 23:38:39,751 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 23:38:39,752 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 23:38:39,805 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 23:38:40,157 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 23:38:40,171 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 23:38:40,174 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 23:38:40,180 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 23:38:40,181 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-26 - Starting...
+2026-09-02 23:38:40,232 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-26 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7c0c5293
+2026-09-02 23:38:40,233 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-26 - Start completed.
+2026-09-02 23:38:40,247 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 23:38:40,247 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 23:38:40,270 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 23:38:40,270 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 23:38:40,328 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 23:38:40,334 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.677 seconds (process running for 12759.75)
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 23:38:40,336 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 23:38:40,336 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 23:40:29,603 [HikariPool-26 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-26 - Thread starvation or clock leap detected (housekeeper delta=1m49s270ms).
+2026-09-02 23:45:42,124 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 23:45:44,222 [Thread-336] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 23:45:44,225 [Thread-336] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-26 - Shutdown initiated...
+2026-09-02 23:45:44,236 [Thread-336] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-26 - Shutdown completed.
+2026-09-02 23:45:44,378 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 23:45:44,378 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 23:45:44,443 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 23:45:44,444 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 23:45:44,489 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 23:45:44,845 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 23:45:44,862 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 23:45:44,866 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 23:45:44,878 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 23:45:44,880 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-27 - Starting...
+2026-09-02 23:45:44,918 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-27 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5b41e4a4
+2026-09-02 23:45:44,918 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-27 - Start completed.
+2026-09-02 23:45:44,934 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 23:45:44,934 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 23:45:44,960 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 23:45:44,960 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 23:45:45,139 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 23:45:45,158 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 23:45:45,163 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.803 seconds (process running for 13105.317)
+2026-09-02 23:45:45,165 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 23:45:45,165 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 23:45:45,165 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 23:45:45,165 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 23:45:45,166 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 23:45:45,166 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 23:45:45,166 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 23:45:45,166 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 23:45:45,166 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 23:45:45,166 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 23:45:45,166 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 23:45:45,166 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 23:45:45,167 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 23:47:06,182 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 23:47:08,253 [Thread-352] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 23:47:08,254 [Thread-352] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-27 - Shutdown initiated...
+2026-09-02 23:47:08,255 [Thread-352] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-27 - Shutdown completed.
+2026-09-02 23:47:08,318 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 23:47:08,318 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 23:47:08,380 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 23:47:08,382 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 23:47:08,423 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 23:47:08,732 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 23:47:08,742 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 23:47:08,745 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 23:47:08,752 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 23:47:08,753 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-28 - Starting...
+2026-09-02 23:47:08,770 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-28 - Added connection com.mysql.cj.jdbc.ConnectionImpl@30063b67
+2026-09-02 23:47:08,770 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-28 - Start completed.
+2026-09-02 23:47:08,784 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 23:47:08,784 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 23:47:08,799 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 23:47:08,799 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 23:47:08,839 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 23:47:08,845 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.542 seconds (process running for 13189.001)
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 23:47:08,847 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 23:47:08,848 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 23:49:14,223 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 23:49:16,305 [Thread-368] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 23:49:16,307 [Thread-368] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-28 - Shutdown initiated...
+2026-09-02 23:49:16,312 [Thread-368] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-28 - Shutdown completed.
+2026-09-02 23:49:16,418 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 23:49:16,418 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 23:49:16,480 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 23:49:16,481 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 23:49:16,526 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 23:49:16,840 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 23:49:16,853 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 23:49:16,856 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 23:49:16,861 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 23:49:16,862 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-29 - Starting...
+2026-09-02 23:49:16,880 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-29 - Added connection com.mysql.cj.jdbc.ConnectionImpl@5610e939
+2026-09-02 23:49:16,881 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-29 - Start completed.
+2026-09-02 23:49:16,892 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 23:49:16,893 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 23:49:16,910 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 23:49:16,910 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 23:49:16,949 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 23:49:16,955 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 23:49:16,957 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.553 seconds (process running for 13317.111)
+2026-09-02 23:49:16,957 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 23:49:16,957 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 23:49:16,957 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 23:49:16,957 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 23:49:16,957 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 23:49:16,957 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 23:49:16,957 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 23:49:16,958 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 23:49:16,958 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 23:49:16,958 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 23:49:16,958 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 23:49:16,958 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 23:49:16,958 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2026-09-02 23:51:30,448 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2026-09-02 23:51:32,524 [Thread-384] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 23:51:32,525 [Thread-384] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-29 - Shutdown initiated...
+2026-09-02 23:51:32,526 [Thread-384] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-29 - Shutdown completed.
+2026-09-02 23:51:32,596 [restartedMain] INFO  c.s.f.FiletransferApplication - Starting FiletransferApplication using Java 17.0.9 with PID 86093 (/Users/aileen/MyProjects/Interview Practice/Projects/filetransfer/target/classes started by aileen in /Users/aileen/MyProjects/Interview Practice/Projects/filetransfer)
+2026-09-02 23:51:32,596 [restartedMain] INFO  c.s.f.FiletransferApplication - The following 1 profile is active: "dev"
+2026-09-02 23:51:32,650 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-02 23:51:32,652 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 1 ms. Found 0 JPA repository interfaces.
+2026-09-02 23:51:32,686 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Fetching secrets from AWS Secrets Manager [secretId=s3-to-azure/credentials]
+2026-09-02 23:51:33,013 [restartedMain] INFO  c.s.f.config.SecretsManagerConfig - Successfully loaded 9 secret keys from AWS Secrets Manager
+2026-09-02 23:51:33,029 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-02 23:51:33,032 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-09-02 23:51:33,038 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-02 23:51:33,039 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-30 - Starting...
+2026-09-02 23:51:33,059 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-30 - Added connection com.mysql.cj.jdbc.ConnectionImpl@672adc31
+2026-09-02 23:51:33,059 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-30 - Start completed.
+2026-09-02 23:51:33,073 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-02 23:51:33,073 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-02 23:51:33,085 [restartedMain] INFO  c.s.f.config.TransferConfig - Configuring TransferService with source: [s3Service], destination: [azureBlobService]
+2026-09-02 23:51:33,085 [restartedMain] INFO  c.s.f.config.TransferConfig - Selected source: [s3Service] (identifier: aileen-bucket), destination: [azureBlobService] (identifier: s3-azure-connector)
+2026-09-02 23:51:33,121 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2026-09-02 23:51:33,128 [restartedMain] INFO  o.s.b.w.e.netty.NettyWebServer - Netty started on port 8586 (http)
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication - Started FiletransferApplication in 0.545 seconds (process running for 13453.283)
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication - ========== AWS SECRETS MANAGER CONNECTION TEST ==========
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication - Connection SUCCESSFUL! Loaded 9 secret keys.
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_access_key_id
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: aws_secret_access_key
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_bucket_name
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: s3_region
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_name
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_storage_account_key
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: azure_container_name
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_username
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication -   Loaded key: mysql_password
+2026-09-02 23:51:33,130 [restartedMain] INFO  c.s.f.FiletransferApplication - =========================================================
+2026-09-02 23:51:33,130 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
