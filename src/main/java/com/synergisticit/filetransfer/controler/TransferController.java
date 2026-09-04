@@ -3,6 +3,7 @@ package com.synergisticit.filetransfer.controler;
 import com.synergisticit.filetransfer.model.TransferSummary;
 import com.synergisticit.filetransfer.service.TransferService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -35,8 +36,22 @@ public class TransferController {
         log.info("Received request to trigger file transfer. prefix=[{}], extension=[{}], overwrite=[{}]",
                 prefix, extension, overwrite);
 
-        // .map() now works because executeTransfer returns Mono<TransferSummary>
         return transferService.executeTransfer(prefix, extension, overwrite)
-                .map(summary -> ResponseEntity.ok(summary));
+                .map(summary -> {
+                    if (summary.getTotalFailed() == 0) {
+                        // Everything succeeded or skipped (200 OK)
+                        return ResponseEntity.ok(summary);
+                    } else if (summary.getTotalTransferred() > 0 || summary.getTotalSkipped() > 0) {
+                        // Partial failure (207 Multi-Status)
+                        return ResponseEntity.status(HttpStatus.MULTI_STATUS).body(summary);
+                    } else {
+                        // All operations failed (500 Internal Server Error)
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(summary);
+                    }
+                })
+                .onErrorResume(e -> {
+                    log.error("Critical error while executing transfer pipeline", e);
+                    return Mono.just(ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build());
+                });
     }
 }

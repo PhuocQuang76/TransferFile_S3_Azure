@@ -3,6 +3,7 @@ package com.synergisticit.filetransfer.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
@@ -12,6 +13,7 @@ import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
  * Follows Single Responsibility Principle - only handles AWS client bean creation.
  */
 @Configuration
+@Profile("!test")
 public class AWSConfig {
 
     @Value("${aws.secrets.region:us-east-1}")
