@@ -33,6 +33,8 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+//Integrates Mockito with JUnit 5. It automatically initializes fields marked with @Mock
+//@Mock creates fake, simulated instances of StorageSource and StorageDestination
 @ExtendWith(MockitoExtension.class)
 class TransferServiceTest {
 
@@ -44,6 +46,7 @@ class TransferServiceTest {
 
     private TransferService transferService;
 
+    //Marks setUp() to run before every individual @Test method.2
     @BeforeEach
     void setUp() {
         transferService = new TransferService(source, destination, 5, false);
@@ -56,11 +59,14 @@ class TransferServiceTest {
         StorageObject mockFile = StorageObject.builder()
                 .key("test.txt")
                 .size(100L)
-                .build();
+                .build();               
+                //Creates a dummy file object representing a 100-byte file named "test.txt"
+
         StorageMetadata metadata = StorageMetadata.builder()
                 .contentType("text/plain")
                 .contentLength(100L)
                 .build();
+                //Creates dummy metadata for "text/plain" content type and 100 bytes length.
 
         when(source.listObjects(null, null)).thenReturn(Flux.just(mockFile));
         when(source.getObjectMetadata("test.txt")).thenReturn(Mono.just(metadata));
@@ -174,6 +180,7 @@ class TransferServiceTest {
                 })
                 .verifyComplete();
     }
+    //Sets up the dummy object/metadata and stubs source calls (identical to Test 1).
 
     @Test
     @DisplayName("Should record failure when fetching object metadata fails")

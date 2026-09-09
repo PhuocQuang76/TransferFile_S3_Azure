@@ -1,6 +1,5 @@
 package com.synergisticit.filetransfer.integration;
 
-import com.synergisticit.filetransfer.enums.TransferStatus;
 import com.synergisticit.filetransfer.model.TransferSummary;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -57,7 +56,7 @@ class FileTransferIntegrationTest extends AbstractCloudIntegrationTest {
         assertEquals(1, summary.getTotalTransferred());
         assertEquals(0, summary.getTotalFailed());
 
-        // Assert: Verify the file actually exists in the real destination bucket
+        // Assert: Verify the file exists in the destination bucket
         Boolean fileExistsInDestination = s3AsyncClient.headObject(
                 HeadObjectRequest.builder()
                         .bucket("destination-bucket")

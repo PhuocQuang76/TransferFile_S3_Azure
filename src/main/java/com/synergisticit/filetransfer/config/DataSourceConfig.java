@@ -21,9 +21,17 @@ public class DataSourceConfig {
         String username = secrets.get("mysql_username");
         String password = secrets.get("mysql_password");
 
+        //for deployment using rds, the database URL is constructed dynamically using the username and password from AWS Secrets Manager.
+        // Pull the dynamic JDBC URL from Secrets Manager
+        String jdbcUrl = secrets.get("mysql_url");
+
+        //for local development, the database URL is hardcoded to connect to a local MySQL instance.
+        // String jdbcUrl = ("jdbc:mysql://localhost:3306/filetransfer?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true")
+
+
         return DataSourceBuilder.create()
                 .type(HikariDataSource.class)
-                .url("jdbc:mysql://localhost:3306/filetransfer?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true")
+                .url(jdbcUrl)
                 .username(username)
                 .password(password)
                 .driverClassName("com.mysql.cj.jdbc.Driver")

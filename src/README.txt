@@ -438,6 +438,249 @@ curl -X POST "http://localhost:8586/api/v1/transfer?prefix=invoices/&extension=.
 
 ----------------------   RUN ON AWS  ----------------------
 
-Step 1: Set Up Container Registry & AWS IAM Credentials
-Create an Amazon ECR Repository:
-Store your application's Docker images in Amazon Elastic Container Registry (ECR).
+Local Machine (Git Push) ──► GitHub Repository
+                                  │
+                       Triggers GitHub Actions
+                                  │
+             ┌────────────────────┴────────────────────┐
+             ▼                                         ▼
+1. Run Unit Tests                        2. Build Docker Image
+   (mvn test)                                  │
+                                         Authenticate via OIDC
+                                               │
+                                         Push to Amazon ECR
+                                               │
+                                         SSH into Amazon EC2
+                                               │
+                                         Pull & Run Container
+
+
+
+*****  Phase 1: Set Up AWS Infrastructure ********
+
+Step 1: Create an Amazon ECR Repository
+Run this command on your local terminal using the AWS CLI:
+
+aws ecr create-repository --repository-name file-transfer-service --region us-east-1
+Note: Note down the repository URI returned in the terminal (e.g., <ACCOUNT_ID>[.dkr.ecr.us-east-1.amazonaws.com/file-transfer-service](https://.dkr.ecr.us-east-1.amazonaws.com/file-transfer-service)).
+
+
+Step 2: Configure GitHub OIDC in AWS IAM
+Instead of storing permanent access keys in GitHub, set up an OpenID Connect (OIDC) identity provider and role.
+[ Your Laptop ] ──► [ GitHub ] ──► [ GitHub Actions ] ──► [ AWS ECR ] ──► [ AWS EC2 ]
+  (Write Code)       (Storage)      (The Robot Worker)    (Box Store)     (The Live Kitchen)
+1. Go to AWS IAM Console -> Identity Providers -> Add Provider.
+
+Provider Type: OpenID Connect
+
+Provider URL: [https://token.actions.githubusercontent.com](https://token.actions.githubusercontent.com)
+
+Audience: sts.amazonaws.com
+
+2. Go to IAM Roles -> Create Role.
+
+Select Custom Trust Policy and paste:
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Federated": "arn:aws:iam::<ACCOUNT_ID>:oidc-provider/token.actions.githubusercontent.com"
+      },
+      "Action": "sts:AssumeRoleWithWebIdentity",
+      "Condition": {
+        "StringEquals": {
+          "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
+        },
+        "StringLike": {
+          "token.actions.githubusercontent.com:sub": "repo:<YOUR_GITHUB_USERNAME>/<YOUR_REPO_NAME>:*"
+        }
+      }
+    }
+  ]
+}
+
+(Replace <ACCOUNT_ID>, <YOUR_GITHUB_USERNAME>, and <YOUR_REPO_NAME> with your actual details).
+
+3. Attach the permission policy AmazonEC2ContainerRegistryPowerUser to this role.
+
+4. Name the role GitHubActionsECRRole and save its ARN.
+
+Step 3: Launch and Configure the EC2 Instance
+Go to AWS EC2 Console -> Launch Instance.
+
+Name: file-transfer-ec2
+
+AMI: Amazon Linux 2023
+
+Instance Type: t3.medium (or t3.small)
+
+Key Pair: Create or select an existing key pair (.pem file). Save this key on your computer.
+
+Security Group Rules:
+
+Allow SSH (Port 22) from your IP.
+
+Allow Custom TCP (Port 8080) from 0.0.0.0/0.
+
+
+2. Attach IAM Role to EC2:
+
+Create an IAM Role for EC2 with AmazonEC2ContainerRegistryReadOnly policy attached.
+
+Attach it to your EC2 instance under Actions -> Security -> Modify IAM Role.
+
+3. Install Docker on EC2:
+Connect to your instance via SSH from your machine:
+
+ssh -i /path/to/your-key.pem ec2-user@<EC2_PUBLIC_IP>
+
+Run the setup commands on the instance:
+
+sudo dnf update -y
+sudo dnf install -y docker
+sudo systemctl start docker
+sudo systemctl enable docker
+sudo usermod -aG docker ec2-user
+Log out of EC2 (exit).
+
+
+****** Phase 2: Configure Your Local Repository ******
+Step 4: Add Dockerfile to Project Root
+In your Spring Boot project root on your machine, create a file named Dockerfile:
+
+# Stage 1: Build the artifact
+Step 4: Add Dockerfile to Project Root
+In your Spring Boot project root on your machine, create a file named Dockerfile:
+
+---
+# Stage 1: Build the artifact
+FROM eclipse-temurin:21-jdk-alpine AS builder
+WORKDIR /app
+COPY . .
+RUN ./mvnw clean package -DskipTests
+
+# Stage 2: Minimal runtime image
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+USER appuser
+COPY --from=builder /app/target/*.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
+---
+
+Step 5: Configure GitHub Secrets
+In your GitHub repository web browser:
+
+Navigate to Settings -> Secrets and variables -> Actions.
+
+Add four repository secrets:
+Secret Name,      Value
+AWS_ROLE_ARN,     The ARN of GitHubActionsECRRole created in Step 2
+EC2_HOST,         The Public IP address of your EC2 instance
+EC2_USERNAME,     ec2-user
+EC2_SSH_KEY,      Entire content of your .pem SSH key file
+
+
+Step 6: Create the GitHub Actions Workflow File
+In your local project directory, create .github/workflows/deploy.yml:
+
+---
+name: CI/CD Pipeline to AWS EC2
+
+on:
+  push:
+    branches: [ "main" ]
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  test-build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run Unit Tests
+        run: ./mvnw test
+
+      - name: Configure AWS Credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Log in to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and Push Docker Image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY: file-transfer-service
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # 1. Log in to ECR on EC2
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${{ steps.login-ecr.outputs.registry }}
+
+            # 2. Stop and remove existing container
+            docker stop file-transfer-app || true
+            docker rm file-transfer-app || true
+
+            # 3. Pull latest image
+            docker pull ${{ steps.login-ecr.outputs.registry }}/file-transfer-service:latest
+
+            # 4. Run new container
+            docker run -d \
+              --name file-transfer-app \
+              --restart always \
+              -p 8080:8080 \
+              ${{ steps.login-ecr.outputs.registry }}/file-transfer-service:latest
+
+----
+Phase 3: Push Code & Trigger Pipeline
+Run the following commands on your local machine terminal:
+
+# 1. Create a feature branch for your changes
+git checkout -b feature/setup-cicd-pipeline
+
+# 2. Stage and commit your files
+git add .
+git commit -m "Add Dockerfile and GitHub Actions workflow"
+
+# 3. Switch back to main and merge (or open a PR on GitHub)
+git checkout main
+git merge feature/setup-cicd-pipeline
+
+# 4. Push to main branch on GitHub to trigger deployment
+git push origin main
+
+Verification
+Go to GitHub Repository -> Actions tab. You will see your workflow executing in real time through the stages: Test -> Build Container -> Push to ECR -> SSH Deploy.
+
+Once complete, open your browser and navigate to:
+http://<EC2_PUBLIC_IP>:8080/actuator/health or your API endpoint to confirm the application is live.

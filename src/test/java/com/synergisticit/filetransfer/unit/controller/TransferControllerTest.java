@@ -53,7 +53,7 @@ class TransferControllerTest {
                 .uri(uriBuilder -> uriBuilder
                         .path("/api/v1/transfer")
                         .queryParam("prefix", "incoming/")
-                        .queryParam("suffix", ".pdf")
+                        .queryParam("extension", ".pdf")
                         .queryParam("overwrite", true)
                         .build())
                 .accept(MediaType.APPLICATION_JSON)
