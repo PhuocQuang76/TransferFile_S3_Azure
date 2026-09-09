@@ -50,25 +50,25 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
       - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.0.0
-        env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          ECR_REPOSITORY: file-transfer-service
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          envs: ECR_REGISTRY,ECR_REPOSITORY
-          script: |
-            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $ECR_REGISTRY
+    uses: appleboy/ssh-action@v1.0.0
+    env:
+      ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+      ECR_REPOSITORY: file-transfer-service
+    with:
+      host: ${{ secrets.EC2_HOST }}
+      username: ${{ secrets.EC2_USERNAME }}
+      key: ${{ secrets.EC2_SSH_KEY }}
+      envs: ECR_REGISTRY,ECR_REPOSITORY
+      script: |
+        aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin $ECR_REGISTRY
 
-            docker stop file-transfer-app || true
-            docker rm file-transfer-app || true
+        sudo docker stop file-transfer-app || true
+        sudo docker rm file-transfer-app || true
 
-            docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        sudo docker pull $ECR_REGISTRY/$ECR_REPOSITORY:latest
 
-            docker run -d \
-              --name file-transfer-app \
-              --restart always \
-              -p 8586:8586 \
-              $ECR_REGISTRY/$ECR_REPOSITORY:latest
+        sudo docker run -d \
+          --name file-transfer-app \
+          --restart always \
+          -p 8586:8586 \
+          $ECR_REGISTRY/$ECR_REPOSITORY:latest
