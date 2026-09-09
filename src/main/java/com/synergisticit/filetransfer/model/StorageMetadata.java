@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+//just test
 /**
  * Generic storage metadata representation that can represent S3 object metadata,
  * Azure blob properties, or GCS object metadata.
@@ -21,3 +21,5 @@ public class StorageMetadata {
     private String eTag;
     private long lastModified;
 }
+
+
