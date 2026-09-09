@@ -31,3 +31,57 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Ignore sensitive variable files
+*.tfvars
+*.tfvars.json
+
+# Ignore local SSH keys
+ec2_public_key
+!ec2_public_key.pub
+
+
+#------------------
+# ==========================================
+# Terraform Ignore Rules
+# ==========================================
+# Local state files & backups (contains sensitive infrastructure data)
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform runtime & provider plugins
+.terraform/
+.terraform.lock.hcl
+
+# Variable override files (often contains secrets)
+*.tfvars
+*.tfvars.json
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Local SSH keys used for EC2 access
+terraform/ec2_public_key
+terraform/ec2_public_key.pub
+
+# ==========================================
+# Ansible Ignore Rules
+# ==========================================
+# Dynamically generated host inventory files (contains live server IPs)
+ansible/inventory.ini
+ansible/*.ini
+
+# Ansible runtime logs and retry files
+*.retry
+ansible.log
+.ansible/
+# Completely ignore Terraform and Ansible directories
+terraform/
+ansible/
+
+# Ignore log files and log directories
+*.log
+logs/
+LOGS_IS_UNDEFINED/
