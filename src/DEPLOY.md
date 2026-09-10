@@ -997,13 +997,16 @@ github_repository         = "PhuocQuang76/TransferFile_S3_Azure"
 
 
 
+
+
+
+
+
 ---------------------------***********------------------------
 terraform init
 -> create key pair
 terraform plan
 terraform apply -auto-approve
-
-
 
 
 
@@ -1062,10 +1065,12 @@ To enable keyless deployment from GitHub Actions to ECR/EC2, navigate to your Gi
 Settings → Secrets and variables → Actions and configure the following:
 
 Secret / Variable Name,  Type,      Value
-AWS_ROLE_ARN,            Secret,    arn:aws:iam::364218292370:role/GitHubActionsECRRole
-EC2_HOST,                Secret,    35.174.11.219
-EC2_USERNAME,            Secret,    ec2-user
-EC2_SSH_KEY,             Secret,    Copy & paste the complete contents of your local ec2_public_key file
+aws_access_key_id        Secret     ""
+aws_secret_access_key    Secret     ""
+AWS_ROLE_ARN             Secret     arn:aws:iam::364218292370:role/GitHubActionsECRRole
+EC2_HOST                 Secret     35.174.11.219
+EC2_USERNAME             Secret     ec2-user
+EC2_SSH_KEY              Secret     Copy & paste the complete contents of your local ec2_public_key file
 
 
 4. Verify Secrets Manager Contents (Optional)
@@ -1112,4 +1117,62 @@ chmod +x setup-github-secrets.sh
 ANSIBLE
 
 Command line
-ansible-playbook -i inventory.aws_ec2.yml setup-docker.yml
+ansible-playbook -i inventory.ini setup-docker.yml
+
+
+---------------------------***********------------------------
+Check
+1. docker container
+docker ps -a
+
+2. health check
+curl http://34.229.135.146:8586/actuator/health
+
+
+
+---------------------------***********------------------------
+TEST transfer
+crete file in s3
+echo "Hello, this is a test file for S3 to Azure transfer!" > test-file1.txt
+
+
+aws s3 cp test-file1.txt s3://aileen-bucket/test-file1.txt
+
+THen run command to transfer
+# Option 1: If your transfer endpoint uses a POST mapping
+curl -X POST http://34.229.135.146:8586/api/transfer/start
+
+# Option 2: If your transfer endpoint is mapped directly 
+curl -X POST http://34.229.135.146:8586/transfer
+
+
+
+
+--------------***************----------------
+AWS vs GITHUB connection
+IAM colsole
+Click on Idemtity Provider
+    add provider
+    Select OpenID Connect as the provider type and fill out the form:
+        - Provider URL: https://token.actions.githubusercontent.com
+        - Click the Get thumbprint button to let AWS automatically fetch GitHub's active SSL certificate thumbprint (replacing the Terraform tls_certificate data block).
+        - Audience: sts.amazonaws.com
+
+    Add the Provider: Finalization. Click Add provider. AWS will create the OIDC provider record, matching the resource configuration defined in your code.
+
+IN TERRAFORM
+  1) Fetches GitHub's SSL certificate thumbprint to establish trust with AWS
+
+  2) Registers GitHub as an OpenID Connect (OIDC) identity provider in your AWS account
+
+  3) This specific role (GitHubActionsECRRole) is for your CI/CD pipeline (GitHub Actions).
+
+Its sole purpose is to allow your automated GitHub builds to securely log into AWS and push or pull Docker container images to your AWS ECR (Elastic Container Registry) without using any permanent passwords or secret access keys.
+
+When your code triggers a build on GitHub:
+
+GitHub requests a temporary OIDC token.
+
+AWS checks that token against this role's Trust Policy (verifying it is coming from your exact repository and main branch).
+
+Once verified, AWS grants temporary permission to use the attached ECR PowerUser policy so your Docker images can be uploaded successfully.
