@@ -1136,7 +1136,8 @@ crete file in s3
 echo "Hello, this is a test file for S3 to Azure transfer!" > test-file1.txt
 
 
-aws s3 cp test-file1.txt s3://aileen-bucket/test-file1.txt
+[app_server]
+ec2_instance ansible_host=3.91.43.130 ansible_user=ec2-user ansible_ssh_private_key_file=../terraform/ec2_public_key
 
 THen run command to transfer
 # Option 1: If your transfer endpoint uses a POST mapping
