@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: filetransfer-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: filetransfer-app
+  template:
+    metadata:
+      labels:
+        app: filetransfer-app
+    spec:
+      containers:
+        - name: filetransfer-app
+          image: YOUR_ECR_IMAGE_URI:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8586
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: "dev"
+            - name: AWS_REGION
+              value: "us-east-1"
+            - name: AWS_SECRETS_SECRET_NAME
+              value: "s3-to-azure/credentials"
+          envFrom:
+            - configMapRef:
+                name: filetransfer-config
+            - secretRef:
+                name: filetransfer-secret

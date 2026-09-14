@@ -1,0 +1,27 @@
+replicaCount: 1
+
+image:
+  repository: filetransfer
+  tag: local
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 8586
+  targetPort: 8586
+
+env:
+  springProfilesActive: "dev"
+  serverPort: 8586
+  awsRegion: "us-east-1"
+  awsSecretsSecretName: "s3-to-azure/credentials"
+
+secret:
+  name: filetransfer-secret
+  data:
+    AWS_ACCESS_KEY_ID: ""
+    AWS_SECRET_ACCESS_KEY: ""
+    SPRING_DATASOURCE_URL: "jdbc:mysql://mysql.default.svc.cluster.local:3306/filetransfer?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+    SPRING_DATASOURCE_USERNAME: "root"
+    SPRING_DATASOURCE_PASSWORD: "root"
+    AWS_REGION: "us-east-1"

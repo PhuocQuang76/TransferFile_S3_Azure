@@ -1,0 +1,96 @@
+# Automatically grab the default VPC
+data "aws_vpc" "default" {
+  default = true
+}
+
+# Automatically grab default subnets inside the default VPC
+data "aws_subnets" "default" {
+  filter {
+    name   = "vpc-id"
+    values = [data.aws_vpc.default.id]
+  }
+}
+
+# Security group allowing MySQL traffic
+resource "aws_security_group" "rds" {
+  name        = "${var.project_name}-${var.environment}-rds-sg"
+  description = "Allow inbound MySQL traffic"
+  vpc_id      = data.aws_vpc.default.id
+
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Can be restricted later to specific worker nodes/IPs
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-rds-sg"
+    Environment = var.environment
+  }
+}
+
+resource "aws_db_subnet_group" "main" {
+  name       = "${var.project_name}-${var.environment}-subnet-group"
+  subnet_ids = data.aws_subnets.default.ids
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-subnet-group"
+    Environment = var.environment
+  }
+}
+
+resource "aws_db_parameter_group" "main" {
+  name   = "${var.project_name}-${var.environment}-pg"
+  family = "mysql8.0"
+
+  parameter {
+    name  = "max_connections"
+    value = "100"
+  }
+  parameter {
+    name  = "character_set_server"
+    value = "utf8mb4"
+  }
+  parameter {
+    name  = "collation_server"
+    value = "utf8mb4_unicode_ci"
+  }
+}
+
+resource "aws_db_instance" "main" {
+  identifier = "${var.project_name}-${var.environment}-db"
+
+  engine         = "mysql"
+  engine_version = "8.0"
+  instance_class = var.db_instance_class
+
+  allocated_storage = var.db_allocated_storage
+  storage_type      = "gp2"
+  storage_encrypted = true
+
+  db_name  = var.db_name
+  username = var.db_username
+  password = var.db_password
+
+  db_subnet_group_name   = aws_db_subnet_group.main.name
+  vpc_security_group_ids = [aws_security_group.rds.id]
+
+  publicly_accessible     = false
+  skip_final_snapshot     = true
+  backup_retention_period = 7
+
+  parameter_group_name = aws_db_parameter_group.main.name
+
+  tags = {
+    Name        = "${var.project_name}-${var.environment}-rds"
+    Environment = var.environment
+  }
+}

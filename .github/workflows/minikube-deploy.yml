@@ -1,0 +1,124 @@
+name: Deploy to Minikube with ECR + HPA
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'src/**'
+      - 'pom.xml'
+      - 'Dockerfile'
+      - 'filetransfer-chart/**'
+      - '.github/workflows/minikube-deploy.yml'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    # Required permissions for OIDC token generation
+    permissions:
+      id-token: write
+      contents: read
+
+    env:
+      IMAGE_NAME: filetransfer
+      IMAGE_TAG: latest
+      RELEASE_NAME: filetransfer
+      AWS_REGION: ${{ secrets.AWS_REGION }}
+      AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+      ECR_REPOSITORY: file-transfer-service
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/GitHubActionsECRDeployRole
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        run: |
+          aws ecr get-login-password --region "$AWS_REGION" | docker login --username AWS --password-stdin "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com"
+
+      - name: Set up Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: maven
+
+      - name: Build application jar
+        run: ./mvnw -B -DskipTests package
+
+      - name: Create ECR repository if needed
+        run: |
+          aws ecr describe-repositories --repository-names "$ECR_REPOSITORY" --region "$AWS_REGION" \
+            || aws ecr create-repository --repository-name "$ECR_REPOSITORY" --region "$AWS_REGION"
+
+      - name: Build container image
+        run: |
+          docker build -t "$IMAGE_NAME:$IMAGE_TAG" .
+          docker tag "$IMAGE_NAME:$IMAGE_TAG" "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Push image to ECR
+        run: |
+          docker push "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Start Minikube
+        uses: manusa/actions-setup-minikube@v2.13.0
+        with:
+          minikube version: v1.34.0
+          kubernetes version: v1.30.0
+          github token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable metrics server for HPA
+        run: minikube addons enable metrics-server
+
+      - name: Load image into Minikube
+        run: |
+          docker pull "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
+          minikube image load "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      - name: Install MySQL for the app in Minikube
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo update
+          helm upgrade --install mysql bitnami/mysql \
+            --set auth.rootPassword=root \
+            --set auth.database=filetransfer \
+            --set primary.persistence.enabled=false
+
+      - name: Wait for MySQL
+        run: |
+          kubectl wait --for=condition=available deployment/mysql --timeout=180s
+
+      - name: Deploy Helm chart using ECR image
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_SECRETS_SECRET_NAME: ${{ secrets.AWS_SECRETS_SECRET_NAME }}
+        run: |
+          helm upgrade --install "$RELEASE_NAME" ./filetransfer-chart \
+            --set image.repository="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY" \
+            --set image.tag="$IMAGE_TAG" \
+            --set env.springProfilesActive=dev \
+            --set env.awsRegion="$AWS_REGION" \
+            --set env.awsSecretsSecretName="$AWS_SECRETS_SECRET_NAME" \
+            --set secret.data.SPRING_DATASOURCE_URL="jdbc:mysql://mysql.default.svc.cluster.local:3306/filetransfer?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true" \
+            --set secret.data.SPRING_DATASOURCE_USERNAME="root" \
+            --set secret.data.SPRING_DATASOURCE_PASSWORD="root" \
+            --set secret.data.AWS_REGION="$AWS_REGION"
+
+      - name: Wait for app rollout
+        run: kubectl rollout status deployment/${RELEASE_NAME}-filetransfer --timeout=180s
+
+      - name: Show K8s resources
+        run: |
+          kubectl get deployment,pods,svc,hpa
+
+      - name: Show app logs
+        run: |
+          kubectl logs deployment/${RELEASE_NAME}-filetransfer --tail=80 || true

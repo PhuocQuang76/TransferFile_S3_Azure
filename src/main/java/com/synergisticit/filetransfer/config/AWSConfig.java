@@ -1,6 +1,7 @@
 package com.synergisticit.filetransfer.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -13,7 +14,10 @@ import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
  * Follows Single Responsibility Principle - only handles AWS client bean creation.
  */
 @Configuration
+//It prevents AWS client creation in unit/integration tests.
 @Profile("!test")
+//AWS client creation is only active when aws.secrets.enabled=true
+@ConditionalOnProperty(name = "aws.secrets.enabled", havingValue = "true")
 public class AWSConfig {
 
     @Value("${aws.secrets.region:us-east-1}")

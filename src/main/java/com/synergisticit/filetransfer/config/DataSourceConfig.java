@@ -1,6 +1,7 @@
 package com.synergisticit.filetransfer.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -28,24 +29,26 @@ public class DataSourceConfig {
 
     @Bean
     @Primary
-    public DataSource dataSource(@Qualifier("secrets") Map<String, String> secrets) {
+    public DataSource dataSource(@Qualifier("secrets") ObjectProvider<Map<String, String>> secretsProvider) {
+        Map<String, String> secrets = secretsProvider.getIfAvailable();
+
         String username = Optional.ofNullable(secrets)
                 .map(map -> map.get("mysql_username"))
                 .map(String::trim)
                 .filter(value -> !value.isEmpty())
-                .orElse(fallbackUsername);
+                .orElseGet(() -> Optional.ofNullable(System.getenv("SPRING_DATASOURCE_USERNAME")).filter(v -> !v.isBlank()).orElse(fallbackUsername));
 
         String password = Optional.ofNullable(secrets)
                 .map(map -> map.get("mysql_password"))
                 .map(String::trim)
                 .filter(value -> !value.isEmpty())
-                .orElse(fallbackPassword);
+                .orElseGet(() -> Optional.ofNullable(System.getenv("SPRING_DATASOURCE_PASSWORD")).filter(v -> !v.isBlank()).orElse(fallbackPassword));
 
         String jdbcUrl = Optional.ofNullable(secrets)
                 .map(map -> map.get("mysql_url"))
                 .map(String::trim)
                 .filter(value -> !value.isEmpty())
-                .orElse(fallbackJdbcUrl);
+                .orElseGet(() -> Optional.ofNullable(System.getenv("SPRING_DATASOURCE_URL")).filter(v -> !v.isBlank()).orElse(fallbackJdbcUrl));
 
         return DataSourceBuilder.create()
                 .type(HikariDataSource.class)
