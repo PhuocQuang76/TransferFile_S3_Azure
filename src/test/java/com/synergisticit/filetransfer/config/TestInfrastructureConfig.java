@@ -3,6 +3,7 @@ package com.synergisticit.filetransfer.config;
 import com.synergisticit.filetransfer.service.interfaces.StorageDestination;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,18 @@ import java.util.Map;
 @Configuration
 @Profile("test")
 public class TestInfrastructureConfig {
+
+    @Value("${aws.s3.endpoint:http://localhost:4566}")
+    private String s3Endpoint;
+
+    @Value("${aws.access-key:test}")
+    private String accessKey;
+
+    @Value("${aws.secret-key:test}")
+    private String secretKey;
+
+    @Value("${aws.s3.region:us-east-1}")
+    private String region;
 
     @Bean(name = "secrets")
     @Primary
@@ -55,11 +68,14 @@ public class TestInfrastructureConfig {
     @Bean
     @Primary
     public S3AsyncClient localstackS3Client() {
+        String resolvedAccessKey = (accessKey == null || accessKey.isBlank()) ? "test" : accessKey;
+        String resolvedSecretKey = (secretKey == null || secretKey.isBlank()) ? "test" : secretKey;
+
         return S3AsyncClient.builder()
-                .endpointOverride(URI.create("http://localhost:4566"))
+                .endpointOverride(URI.create(s3Endpoint))
                 .credentialsProvider(StaticCredentialsProvider.create(
-                        AwsBasicCredentials.create("test", "test")))
-                .region(Region.US_EAST_1)
+                        AwsBasicCredentials.create(resolvedAccessKey, resolvedSecretKey)))
+                .region(Region.of(region))
                 .forcePathStyle(true)
                 .build();
     }
