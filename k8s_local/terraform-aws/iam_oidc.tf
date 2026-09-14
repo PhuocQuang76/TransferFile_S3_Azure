@@ -9,7 +9,7 @@ resource "aws_iam_openid_connect_provider" "github" {
 
 # 2. Create the IAM Role for GitHub Actions with Trust Policy
 resource "aws_iam_role" "github_actions_role" {
-  name = "GitHubActionsECRDeployRole" # Must match the workflow's role-to-assume value
+  name = "GitHubActionsECRDeployRole"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -23,8 +23,9 @@ resource "aws_iam_role" "github_actions_role" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            # Exact GitHub subject for a push to the main branch in this repository
-            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:ref:refs/heads/main"
+          }
+          StringLike = {
+            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:*"
           }
         }
       }
