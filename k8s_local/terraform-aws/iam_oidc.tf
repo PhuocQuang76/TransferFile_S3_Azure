@@ -23,8 +23,11 @@ resource "aws_iam_role" "github_actions_role" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            # Production-safe exact trust: only this repo and main branch can assume the role.
-            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:ref:refs/heads/main"
+          }
+          StringLike = {
+            # Allow GitHub Actions from this repo on any branch while validating the workflow.
+            # After the workflow succeeds, tighten this back to refs/heads/main if needed.
+            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:ref:refs/heads/*"
           }
         }
       }
