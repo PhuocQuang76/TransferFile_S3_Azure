@@ -12,7 +12,7 @@ resource "aws_secretsmanager_secret_version" "app_config" {
   secret_id = aws_secretsmanager_secret.app_config.id
 
   secret_string = jsonencode({
-    aws_access_key_id          = ""
+    aws_access_key_id          = "AKIAQFHRPX45BXIFAEV7"
     aws_secret_access_key      = ""
     s3_bucket_name             = aws_s3_bucket.file_source_bucket.id
     s3_region                  = var.aws_region

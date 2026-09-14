@@ -1,6 +1,3 @@
-# iam-oidc.tf
-
-# 1. Register GitHub Actions as an OIDC Identity Provider in AWS with updated thumbprints
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
@@ -10,7 +7,6 @@ resource "aws_iam_openid_connect_provider" "github" {
   ]
 }
 
-# 2. Create the IAM Role for GitHub Actions with Trust Policy
 resource "aws_iam_role" "github_actions_role" {
   name = "GitHubActionsECRDeployRole"
 
@@ -28,7 +24,10 @@ resource "aws_iam_role" "github_actions_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:*"
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:PhuocQuang76/TransferFile_S3_Azure:ref:refs/heads/*",
+              "repo:PhuocQuang76/TransferFile_S3_Azure:environment:*"
+            ]
           }
         }
       }
@@ -36,7 +35,6 @@ resource "aws_iam_role" "github_actions_role" {
   })
 }
 
-# 3. Attach ECR Power User permissions to the role
 resource "aws_iam_role_policy_attachment" "ecr_power_user" {
   role       = aws_iam_role.github_actions_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
