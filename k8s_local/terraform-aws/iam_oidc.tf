@@ -25,7 +25,10 @@ resource "aws_iam_role" "github_actions_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:*"
+            "token.actions.githubusercontent.com:sub" = [
+              "repo:PhuocQuang76/TransferFile_S3_Azure:ref:refs/heads/*",
+              "repo:PhuocQuang76/TransferFile_S3_Azure:environment:*"
+            ]
           }
         }
       }
