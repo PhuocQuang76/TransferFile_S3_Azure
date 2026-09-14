@@ -23,8 +23,10 @@ resource "aws_iam_role" "github_actions_role" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-            # Exact GitHub repo + branch that is allowed to assume this role
-            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:ref:refs/heads/main"
+          }
+          StringLike = {
+            # Temporary debug relaxation: allow this repo on any branch during initial CI validation.
+            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:*"
           }
         }
       }
