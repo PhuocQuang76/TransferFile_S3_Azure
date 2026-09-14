@@ -23,9 +23,7 @@ resource "aws_iam_role" "github_actions_role" {
         Condition = {
           StringEquals = {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
-          }
-          StringLike = {
-            # Exact repo + main branch subject used by GitHub Actions for pushes to main
+            # Exact GitHub subject for a push to the main branch in this repository
             "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:ref:refs/heads/main"
           }
         }
