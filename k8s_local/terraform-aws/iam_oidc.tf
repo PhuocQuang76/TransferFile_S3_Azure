@@ -25,9 +25,7 @@ resource "aws_iam_role" "github_actions_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            # Allow GitHub Actions from this repo on any branch while validating the workflow.
-            # After the workflow succeeds, tighten this back to refs/heads/main if needed.
-            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:ref:refs/heads/*"
+            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:*"
           }
         }
       }
