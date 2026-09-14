@@ -9,6 +9,7 @@ on:
       - 'src/**'
       - 'pom.xml'
       - 'Dockerfile'
+      - 'k8s_local/**'
       - 'filetransfer-chart/**'
       - '.github/workflows/minikube-deploy.yml'
 

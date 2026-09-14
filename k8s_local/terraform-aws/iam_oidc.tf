@@ -1,4 +1,4 @@
-#iam-oidc.tf
+# iam-oidc.tf
 
 # 1. Register GitHub Actions as an OIDC Identity Provider in AWS
 resource "aws_iam_openid_connect_provider" "github" {
@@ -25,8 +25,8 @@ resource "aws_iam_role" "github_actions_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            # Replace with your actual GitHub username and repository name
-            "token.actions.githubusercontent.com:sub" = "repo:YOUR_GITHUB_USERNAME/YOUR_REPO_NAME:*"
+            # Updated with your exact repository path
+            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:*"
           }
         }
       }
