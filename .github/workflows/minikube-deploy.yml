@@ -12,6 +12,7 @@ on:
       - 'k8s_local/**'
       - 'filetransfer-chart/**'
       - '.github/workflows/minikube-deploy.yml'
+      - 'terraform/**' # <-- Add this line so terraform updates trigger auto-runs
 
 jobs:
   build-and-deploy:
