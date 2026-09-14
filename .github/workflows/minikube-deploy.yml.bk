@@ -88,6 +88,22 @@ jobs:
           docker pull "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
           minikube image load "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
 
+      - name: Install MySQL for the app in Minikube
+        run: |
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo update
+          docker pull docker.io/bitnami/mysql:9.4.0-debian-12-r1
+          minikube image load docker.io/bitnami/mysql:9.4.0-debian-12-r1
+          
+          helm upgrade --install mysql bitnami/mysql \
+            --set auth.rootPassword=root \
+            --set auth.database=filetransfer \
+            --set primary.persistence.enabled=false
+
+      - name: Wait for MySQL
+        run: |
+          kubectl rollout status statefulset/mysql --timeout=300s
+
       - name: Deploy Helm chart using ECR image
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
@@ -99,7 +115,13 @@ jobs:
             --set env.springProfilesActive=dev \
             --set env.awsSecretsEnabled=true \
             --set env.awsRegion="$AWS_REGION" \
-            --set env.awsSecretsSecretName="$AWS_SECRETS_SECRET_NAME"
+            --set env.awsSecretsSecretName="$AWS_SECRETS_SECRET_NAME" \
+            --set secret.data.SPRING_DATASOURCE_URL="jdbc:mysql://mysql.default.svc.cluster.local:3306/filetransfer?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true" \
+            --set secret.data.SPRING_DATASOURCE_USERNAME="root" \
+            --set secret.data.SPRING_DATASOURCE_PASSWORD="root" \
+            --set secret.data.AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" \
+            --set secret.data.AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
+            --set secret.data.AWS_REGION="$AWS_REGION"
 
       - name: Wait for app rollout
         run: kubectl rollout status deployment/${RELEASE_NAME}-filetransfer --timeout=180s
