@@ -1,10 +1,13 @@
 # iam-oidc.tf
 
-# 1. Register GitHub Actions as an OIDC Identity Provider in AWS
+# 1. Register GitHub Actions as an OIDC Identity Provider in AWS with updated thumbprints
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = ["6938fd4d98bab03faadb97b34396831e3780aea1"] # GitHub's standard OIDC thumbprint
+  thumbprint_list = [
+    "6938fd4d98bab03faadb97b34396831e3780aea1",
+    "a031c47182908b932187ecf53d537f191b7d8778"
+  ]
 }
 
 # 2. Create the IAM Role for GitHub Actions with Trust Policy
