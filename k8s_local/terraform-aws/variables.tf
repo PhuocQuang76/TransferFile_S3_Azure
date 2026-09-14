@@ -51,3 +51,15 @@ variable "github_repository" {
   description = "The GitHub repository name"
   default     = "PhuocQuang76/TransferFile_S3_Azure"
 }
+
+variable "aws_access_key_id" {
+  type        = string
+  description = "AWS Access Key ID for the application"
+  sensitive   = true
+}
+
+variable "aws_secret_access_key" {
+  type        = string
+  description = "AWS Secret Access Key for the application"
+  sensitive   = true
+}

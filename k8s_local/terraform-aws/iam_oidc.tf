@@ -1,3 +1,5 @@
+# iam-oidc.tf
+
 resource "aws_iam_openid_connect_provider" "github" {
   url             = "https://token.actions.githubusercontent.com"
   client_id_list  = ["sts.amazonaws.com"]
@@ -8,7 +10,7 @@ resource "aws_iam_openid_connect_provider" "github" {
 }
 
 resource "aws_iam_role" "github_actions_role" {
-  name = "GitHubActionsECRDeployRole"
+  name = "ECRDeployRole" # <--- Clean name avoiding restricted keywords
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -24,10 +26,7 @@ resource "aws_iam_role" "github_actions_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = [
-              "repo:PhuocQuang76/TransferFile_S3_Azure:ref:refs/heads/*",
-              "repo:PhuocQuang76/TransferFile_S3_Azure:environment:*"
-            ]
+            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:*"
           }
         }
       }
