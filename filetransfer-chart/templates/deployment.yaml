@@ -74,3 +74,9 @@ spec:
                   name: {{ .Values.secret.name }}
                   key: SPRING_DATASOURCE_PASSWORD
                   optional: true
+            - name: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
+                  optional: true

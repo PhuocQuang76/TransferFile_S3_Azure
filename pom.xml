@@ -114,11 +114,11 @@
 		</dependency>
 
 		<!-- H2 Database Dependency -->
-		<!-- H2 is used only by the test profile (see application-test.properties) -->
+		<!-- H2 is used by the test profile and by CI, where no MySQL is available -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>test</scope>
+			<scope>runtime</scope>
 		</dependency>
 
 		<!-- LocalStack Module -->
