@@ -1,8 +1,8 @@
 # iam-oidc.tf
 
 resource "aws_iam_openid_connect_provider" "github" {
-  url             = "https://token.actions.githubusercontent.com"
-  client_id_list  = ["sts.amazonaws.com"]
+  url            = "https://token.actions.githubusercontent.com"
+  client_id_list = ["sts.amazonaws.com"]
   thumbprint_list = [
     "6938fd4d98bab03faadb97b34396831e3780aea1",
     "a031c47182908b932187ecf53d537f191b7d8778"
@@ -37,8 +37,4 @@ resource "aws_iam_role" "github_actions_role" {
 resource "aws_iam_role_policy_attachment" "ecr_power_user" {
   role       = aws_iam_role.github_actions_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryPowerUser"
-}
-
-output "github_actions_role_arn" {
-  value = aws_iam_role.github_actions_role.arn
 }

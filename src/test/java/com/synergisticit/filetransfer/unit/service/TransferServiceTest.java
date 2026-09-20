@@ -71,8 +71,9 @@ class TransferServiceTest {
         when(source.listObjects(null, null)).thenReturn(Flux.just(mockFile));
         when(source.getObjectMetadata("test.txt")).thenReturn(Mono.just(metadata));
         when(source.getSourceIdentifier()).thenReturn("test-bucket");
-        when(destination.existsAndMatchesSize("test.txt", 100L)).thenReturn(Mono.just(false));
-        when(destination.uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"))).thenReturn(Mono.empty());
+        when(destination.matchesSource(eq("test.txt"), any(), eq(100L))).thenReturn(Mono.just(false));
+        when(destination.uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"), any()))
+                .thenReturn(Mono.just("dest-etag"));
 
         StepVerifier.create(transferService.executeTransfer(null, null, false))
                 .assertNext(summary -> {
@@ -86,8 +87,8 @@ class TransferServiceTest {
 
         verify(source).listObjects(null, null);
         verify(source).getObjectMetadata("test.txt");
-        verify(destination).existsAndMatchesSize("test.txt", 100L);
-        verify(destination).uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"));
+        verify(destination).matchesSource(eq("test.txt"), any(), eq(100L));
+        verify(destination).uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"), any());
     }
 
     @Test
@@ -105,7 +106,7 @@ class TransferServiceTest {
         when(source.listObjects(null, null)).thenReturn(Flux.just(mockFile));
         when(source.getObjectMetadata("test.txt")).thenReturn(Mono.just(metadata));
         when(source.getSourceIdentifier()).thenReturn("test-bucket");
-        when(destination.existsAndMatchesSize("test.txt", 100L)).thenReturn(Mono.just(true));
+        when(destination.matchesSource(eq("test.txt"), any(), eq(100L))).thenReturn(Mono.just(true));
 
         StepVerifier.create(transferService.executeTransfer(null, null, false))
                 .assertNext(summary -> {
@@ -116,7 +117,7 @@ class TransferServiceTest {
                 })
                 .verifyComplete();
 
-        verify(destination, never()).uploadStream(any(), any(), anyLong(), any());
+        verify(destination, never()).uploadStream(any(), any(), anyLong(), any(), any());
     }
 
     @Test
@@ -134,7 +135,8 @@ class TransferServiceTest {
         when(source.listObjects(null, null)).thenReturn(Flux.just(mockFile));
         when(source.getObjectMetadata("test.txt")).thenReturn(Mono.just(metadata));
         when(source.getSourceIdentifier()).thenReturn("test-bucket");
-        when(destination.uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"))).thenReturn(Mono.empty());
+        when(destination.uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"), any()))
+                .thenReturn(Mono.just("dest-etag"));
 
         StepVerifier.create(transferService.executeTransfer(null, null, true))
                 .assertNext(summary -> {
@@ -143,8 +145,8 @@ class TransferServiceTest {
                 })
                 .verifyComplete();
 
-        verify(destination, never()).existsAndMatchesSize(any(), anyLong());
-        verify(destination).uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"));
+        verify(destination, never()).matchesSource(any(), any(), anyLong());
+        verify(destination).uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"), any());
     }
 
     @Test
@@ -162,8 +164,8 @@ class TransferServiceTest {
         when(source.listObjects(null, null)).thenReturn(Flux.just(mockFile));
         when(source.getObjectMetadata("test.txt")).thenReturn(Mono.just(metadata));
         when(source.getSourceIdentifier()).thenReturn("test-bucket");
-        when(destination.existsAndMatchesSize("test.txt", 100L)).thenReturn(Mono.just(false));
-        when(destination.uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain")))
+        when(destination.matchesSource(eq("test.txt"), any(), eq(100L))).thenReturn(Mono.just(false));
+        when(destination.uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"), any()))
                 .thenReturn(Mono.error(new RuntimeException("Upload failed")));
 
         StepVerifier.create(transferService.executeTransfer(null, null, false))
@@ -221,8 +223,8 @@ class TransferServiceTest {
         when(source.getObjectMetadata("file2.txt")).thenReturn(Mono.just(metadata2));
         when(source.getObjectMetadata("file3.txt")).thenReturn(Mono.just(metadata3));
         when(source.getSourceIdentifier()).thenReturn("test-bucket");
-        when(destination.existsAndMatchesSize(any(), anyLong())).thenReturn(Mono.just(false));
-        when(destination.uploadStream(any(), any(), anyLong(), any())).thenReturn(Mono.empty());
+        when(destination.matchesSource(any(), any(), anyLong())).thenReturn(Mono.just(false));
+        when(destination.uploadStream(any(), any(), anyLong(), any(), any())).thenReturn(Mono.just("dest-etag"));
 
         StepVerifier.create(transferService.executeTransfer(null, null, false))
                 .assertNext(summary -> {
@@ -284,5 +286,53 @@ class TransferServiceTest {
                     assertEquals(0, summary.getTotalFailed());
                 })
                 .verifyComplete();
+    }
+
+    @Test
+    @DisplayName("Should NOT delete the source when the upload returns no proof of the write")
+    void testSourceKeptWhenUploadUnverified() {
+        // deleteAfterTransfer = true: this is the configuration where getting it wrong loses files
+        transferService = new TransferService(source, destination, 5, true);
+
+        StorageObject mockFile = StorageObject.builder().key("test.txt").size(100L).eTag("\"abc123\"").build();
+        when(source.listObjects(any(), any())).thenReturn(Flux.just(mockFile));
+        when(source.getObjectMetadata("test.txt"))
+                .thenReturn(Mono.just(StorageMetadata.builder().contentType("text/plain").contentLength(100L).eTag("\"abc123\"").build()));
+        when(destination.matchesSource(eq("test.txt"), any(), eq(100L))).thenReturn(Mono.just(false));
+
+        // Upload "completes" but hands back no eTag - we cannot prove the blob landed
+        when(destination.uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"), any()))
+                .thenReturn(Mono.just(""));
+
+        StepVerifier.create(transferService.executeTransfer(null, null, false))
+                .assertNext(summary -> {
+                    assertEquals(1, summary.getTotalFailed());
+                    assertEquals(0, summary.getTotalTransferred());
+                })
+                .verifyComplete();
+
+        // The assertion that matters: an unverified upload must never delete the source
+        verify(source, never()).deleteObject("test.txt");
+    }
+
+    @Test
+    @DisplayName("Should delete the source only once the upload is confirmed by an eTag")
+    void testSourceDeletedWhenUploadConfirmed() {
+        transferService = new TransferService(source, destination, 5, true);
+
+        StorageObject mockFile = StorageObject.builder().key("test.txt").size(100L).eTag("\"abc123\"").build();
+        when(source.listObjects(any(), any())).thenReturn(Flux.just(mockFile));
+        when(source.getObjectMetadata("test.txt"))
+                .thenReturn(Mono.just(StorageMetadata.builder().contentType("text/plain").contentLength(100L).eTag("\"abc123\"").build()));
+        when(destination.matchesSource(eq("test.txt"), any(), eq(100L))).thenReturn(Mono.just(false));
+        when(destination.uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"), any()))
+                .thenReturn(Mono.just("0x8DC-destination-etag"));
+        when(source.deleteObject("test.txt")).thenReturn(Mono.empty());
+
+        StepVerifier.create(transferService.executeTransfer(null, null, false))
+                .assertNext(summary -> assertEquals(1, summary.getTotalTransferred()))
+                .verifyComplete();
+
+        verify(source).deleteObject("test.txt");
     }
 }

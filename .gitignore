@@ -85,3 +85,9 @@ ansible/
 *.log
 logs/
 LOGS_IS_UNDEFINED/
+
+# Claude Code local overrides
+.claude/settings.local.json
+
+# Local Helm overlays (contain credentials)
+values-*.yaml

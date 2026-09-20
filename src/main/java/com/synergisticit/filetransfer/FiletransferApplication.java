@@ -17,17 +17,17 @@ public class FiletransferApplication {
 	}
 
 	@Bean
-	public CommandLineRunner verifySecretsConnection(Map<String, String> secrets) {
+	public CommandLineRunner verifyCredentials(Map<String, String> secrets) {
 		return args -> {
-			log.info("========== AWS SECRETS MANAGER CONNECTION TEST ==========");
+			log.info("========== CREDENTIAL CONFIGURATION CHECK ==========");
 			if (secrets.isEmpty()) {
-				log.warn("Connection succeeded, but no keys were found in the secret!");
+				log.warn("No credentials were configured!");
 			} else {
-				log.info("Connection SUCCESSFUL! Loaded {} secret keys.", secrets.size());
-				// Logs key names ONLY to avoid printing sensitive passwords/connection strings
-				secrets.keySet().forEach(key -> log.info("  Loaded key: {}", key));
+				// Logs key names and whether each is populated, never the values themselves
+				secrets.forEach((key, value) ->
+						log.info("  {} : {}", key, (value == null || value.isBlank()) ? "NOT SET" : "set"));
 			}
-			log.info("=========================================================");
+			log.info("===================================================");
 		};
 	}
 }

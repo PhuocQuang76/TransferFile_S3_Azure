@@ -5,6 +5,7 @@ resource "aws_s3_bucket" "file_source_bucket" {
     Name        = "${var.project_name}-${var.environment}-bucket"
     Environment = var.environment
   }
+
 }
 
 resource "aws_s3_bucket_public_access_block" "block" {

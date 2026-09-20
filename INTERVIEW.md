@@ -1,6 +1,6 @@
 
 
-***** SOLID *****
+### SOLID *****
 1. Single Responsibility Principle (SRP)
 SecretsManagerConfig: Only secrets parsing
 AWSConfig: Only AWS client creation
@@ -72,7 +72,7 @@ Azure SDK uses builders: BlobServiceClientBuilder()
 
 
 --------------------------------------------
-*** IDEMPOTENCY *** 
+### IDEMPOTENCY *** 
 
 Idempotency (lines 67-69 in TransferService):
 
@@ -107,7 +107,7 @@ If network fails during S3 operations, file immediately fails
 
 
 --------------------------------------------
-**** MONO AND FLUX ****
+###  MONO AND FLUX ****
 Mono: Processes everything in the background, waits until all work is done, gathers the results, and returns one single combined result (like a summary or a list) at the end.
 
 Flux: Processes files in the background and streams each result back immediately, one by one, as soon as each individual file finishes.
@@ -162,7 +162,7 @@ EXPLAIN
 
 --------------------------------------------
 
-what is challenge you face?
+# what is challenge you face?
 
 Challenge 2: Idempotency - Preventing Duplicate Transfers
 Problem: Re-running the transfer job would duplicate files in destination
@@ -181,3 +181,56 @@ Problem: Network hiccups during Azure upload would cause permanent failures
 Solution: Added retryWhen(Retry.backoff(3, Duration.ofSeconds(2))) in AzureBlobService upload
 Result: Automatic retry with exponential backoff for transient network issues
 --------------------------------------------
+
+
+# BUILDER DESIGN PATRERN
+
+EX: In TranferResule class
+i have 9 field
+Without the builder (your @AllArgsConstructor allows this):
+
+new TransferResult("report.pdf", 1024L, "my-bucket", "my-container",
+TransferStatus.TRANSFERRED, 200, null, 340L, Instant.now());
+
+Look at what's dangerous here:
+
+                   ┌─ String ─┐  ┌─ String ─┐        ┌ long ┐        ┌ long ┐
+                   "my-bucket", "my-container"  ...  1024L    ...     340L
+
+Swap the two Strings → compiles fine, bucket and container are backwards forever.
+Swap the two longs → compiles fine, file size and duration are backwards forever.
+
+The compiler cannot help you. Nine positional arguments, two swappable pairs.
+
+With the builder (what your code actually does):
+
+TransferResult.builder()
+.fileName("report.pdf")
+.sizeInBytes(1024L)
+.sourceBucket("my-bucket")
+.status(TransferStatus.TRANSFERRED)
+.timeTakenMs(340L)
+.build();
+
+Every value is named. Swapping is impossible. And you simply left out errorMessage and destinationContainer — no null placeholder needed.
+
+So, to answer directly
+
+What is the Builder pattern here?
+It's the TransferResultBuilder class that @Builder generates, plus the .builder()…​.build() call style it enables.
+The pattern replaces one 9-argument constructor with 9 named method calls.
+
+Your code uses it in TransferService, every time it creates a result.
+
+In an interview
+
+"TransferResult has 9 fields, several optional and several of the same type. A 9-argument constructor would be
+unreadable and would let you silently swap same-typed parameters. I used Lombok's @Builder, which generates a builder
+class so each field is set by name and optional ones can be omitted."
+
+-----------
+# FACTORY DESIGN PATTERN
+
+Exception handler
+Even hub
+design pattern

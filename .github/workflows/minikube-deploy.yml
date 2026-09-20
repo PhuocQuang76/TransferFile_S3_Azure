@@ -9,10 +9,14 @@ on:
       - 'src/**'
       - 'pom.xml'
       - 'Dockerfile'
-      - 'k8s_local/**'
+      - 'k8s_minikube/**'
       - 'filetransfer-chart/**'
       - '.github/workflows/minikube-deploy.yml'
       - 'terraform/**'
+
+permissions:
+  id-token: write    # required: lets GitHub mint the OIDC token AWS verifies
+  contents: read     # required: checkout
 
 jobs:
   build-and-deploy:
@@ -34,8 +38,7 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          role-to-assume: arn:aws:iam::011243863866:role/ECRDeployRole
           aws-region: ${{ env.AWS_REGION }}
 
       - name: Login to Amazon ECR
@@ -81,21 +84,27 @@ jobs:
           docker pull "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
           minikube image load "$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG"
 
+      - name: Deploy MySQL into the cluster
+        run: |
+          helm install mysql oci://registry-1.docker.io/bitnamicharts/mysql \
+            --set auth.rootPassword=admin \
+            --set auth.database=filetransfer \
+            --wait --timeout 5m
+
       - name: Deploy Helm chart using ECR image
-        env:
-          AWS_REGION: ${{ secrets.AWS_REGION }}
-          AWS_SECRETS_SECRET_NAME: ${{ secrets.AWS_SECRETS_SECRET_NAME }}
         run: |
           helm upgrade --install "$RELEASE_NAME" ./filetransfer-chart \
             --set image.repository="$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$ECR_REPOSITORY" \
             --set image.tag="$IMAGE_TAG" \
             --set env.springProfilesActive=dev \
-            --set env.awsSecretsEnabled=true \
             --set env.awsRegion="$AWS_REGION" \
-            --set env.awsSecretsSecretName="$AWS_SECRETS_SECRET_NAME" \
             --set secret.data.AWS_ACCESS_KEY_ID="${{ secrets.AWS_ACCESS_KEY_ID }}" \
             --set secret.data.AWS_SECRET_ACCESS_KEY="${{ secrets.AWS_SECRET_ACCESS_KEY }}" \
-            --set secret.data.AWS_REGION="$AWS_REGION"
+            --set secret.data.AWS_REGION="$AWS_REGION" \
+            --set secret.data.APP_CREDENTIALS_AZURE_STORAGE_ACCOUNT_KEY="${{ secrets.AZURE_KEY }}" \
+            --set secret.data.SPRING_DATASOURCE_URL="jdbc:mysql://mysql.default.svc.cluster.local:3306/filetransfer?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true" \
+            --set secret.data.SPRING_DATASOURCE_USERNAME="root" \
+            --set secret.data.SPRING_DATASOURCE_PASSWORD="admin"
 
       - name: Wait for app rollout
         run: kubectl rollout status deployment/${RELEASE_NAME}-filetransfer --timeout=180s

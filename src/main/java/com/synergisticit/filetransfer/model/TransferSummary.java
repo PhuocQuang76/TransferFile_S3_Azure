@@ -13,6 +13,7 @@ import java.util.List;
 @AllArgsConstructor
 public class TransferSummary {
 
+    private String runId;
     private int totalDiscovered;
     private int totalTransferred;
     private int totalSkipped;

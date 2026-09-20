@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(./mvnw test:*)",
+      "Bash(./mvnw clean package:*)",
+      "Bash(./mvnw package:*)",
+      "Bash(./mvnw compile:*)",
+      "Bash(./mvnw dependency:tree:*)",
+      "Bash(./mvnw help:effective-pom:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git show:*)",
+      "Bash(git branch:*)",
+      "Bash(kubectl get:*)",
+      "Bash(kubectl describe:*)",
+      "Bash(kubectl logs:*)",
+      "Bash(kubectl top:*)",
+      "Bash(helm template:*)",
+      "Bash(helm lint:*)",
+      "Bash(helm list:*)",
+      "Bash(helm get values:*)",
+      "Bash(helm status:*)",
+      "Bash(docker images:*)",
+      "Bash(docker ps:*)",
+      "Bash(minikube status:*)",
+      "Bash(curl -s http://localhost:8586/actuator/**)",
+      "Bash(aws s3 ls:*)",
+      "Bash(aws sts get-caller-identity:*)"
+    ],
+    "ask": [
+      "Bash(helm upgrade:*)",
+      "Bash(helm install:*)",
+      "Bash(kubectl apply:*)",
+      "Bash(kubectl scale:*)",
+      "Bash(docker push:*)",
+      "Bash(aws s3 cp:*)",
+      "Bash(aws secretsmanager:*)"
+    ],
+    "deny": [
+      "Bash(helm uninstall:*)",
+      "Bash(kubectl delete:*)",
+      "Bash(aws s3 rm:*)",
+      "Bash(aws s3 rb:*)",
+      "Bash(terraform apply:*)",
+      "Bash(terraform destroy:*)",
+      "Read(./ec2/terraform/terraform.tfvars)",
+      "Read(./ec2/terraform/terraform.tfstate)",
+      "Read(./ec2/terraform/terraform.tfstate.backup)",
+      "Read(./ec2/terraform/ec2_public_key)",
+      "Read(./**/*.tfstate)",
+      "Read(./**/*.tfvars)"
+    ]
+  }
+}

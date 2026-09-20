@@ -1,33 +1,34 @@
 package com.synergisticit.filetransfer.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
-import software.amazon.awssdk.services.secretsmanager.SecretsManagerClient;
 
 /**
  * Configuration for AWS SDK clients.
  * Follows Single Responsibility Principle - only handles AWS client bean creation.
+ *
+ * Credentials are resolved by the AWS SDK default credential provider chain, in order:
+ *   1. environment variables (AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY)
+ *   2. the shared profile in ~/.aws/credentials
+ *   3. the container or EC2 instance IAM role
+ *
+ * Nothing needs configuring here for local development: whatever `aws configure` set up is used.
  */
 @Configuration
-//It prevents AWS client creation in unit/integration tests.
+// Prevents real AWS client creation in unit/integration tests, where TestInfrastructureConfig
+// supplies a LocalStack-pointed @Primary client instead.
 @Profile("!test")
-//AWS client creation is only active when aws.secrets.enabled=true
-@ConditionalOnProperty(name = "aws.secrets.enabled", havingValue = "true")
 public class AWSConfig {
 
-    @Value("${aws.secrets.region:us-east-1}")
+    @Value("${aws.region:us-east-1}")
     private String region;
 
     /**
-     * @Bean
-        Tells Spring’s IoC container that the object returned by this method should be managed as a Spring bean. Once defined, Spring can automatically inject (@Autowired or via constructor)
-     * builds the S3AsyncClient instance.
-     * Initiates the builder pattern used by the AWS SDK v2 to construct configured SDK client instances.
+     * Builds the asynchronous S3 client used by S3Service to list, stream and delete objects.
      */
     @Bean
     public S3AsyncClient s3AsyncClient() {
@@ -35,17 +36,4 @@ public class AWSConfig {
                 .region(Region.of(region))
                 .build();
     }
-
-    /**
-     * Creates and configures the Secrets Manager Client.
-     * Uses AWS Default Credential Provider Chain for authentication.
-     */
-    @Bean
-    public SecretsManagerClient secretsManagerClient() {
-        return SecretsManagerClient.builder()
-                .region(Region.of(region))
-                .build();
-    }
 }
-
-//test

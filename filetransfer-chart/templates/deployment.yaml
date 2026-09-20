@@ -21,6 +21,13 @@ spec:
         - name: filetransfer
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.requests.cpu | quote }}
+              memory: {{ .Values.resources.requests.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.limits.cpu | quote }}
+              memory: {{ .Values.resources.limits.memory | quote }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetPort }}
@@ -31,10 +38,6 @@ spec:
               value: {{ .Values.env.springProfilesActive | quote }}
             - name: AWS_REGION
               value: {{ .Values.env.awsRegion | quote }}
-            - name: AWS_SECRETS_ENABLED
-              value: {{ .Values.env.awsSecretsEnabled | quote }}
-            - name: AWS_SECRETS_SECRET_NAME
-              value: {{ .Values.env.awsSecretsSecretName | quote }}
             - name: AWS_ACCESS_KEY_ID
               valueFrom:
                 secretKeyRef:
@@ -46,4 +49,28 @@ spec:
                 secretKeyRef:
                   name: {{ .Values.secret.name }}
                   key: AWS_SECRET_ACCESS_KEY
+                  optional: true
+            - name: APP_CREDENTIALS_AZURE_STORAGE_ACCOUNT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: APP_CREDENTIALS_AZURE_STORAGE_ACCOUNT_KEY
+                  optional: true
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: SPRING_DATASOURCE_URL
+                  optional: true
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: SPRING_DATASOURCE_USERNAME
+                  optional: true
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: SPRING_DATASOURCE_PASSWORD
                   optional: true

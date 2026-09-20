@@ -1,4 +1,4 @@
-package com.synergisticit.filetransfer.service;
+package com.synergisticit.filetransfer.adapter;
 
 import static java.lang.Math.log;
 

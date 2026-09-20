@@ -69,12 +69,6 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- AWS Secrets Manager -->
-		<dependency>
-			<groupId>software.amazon.awssdk</groupId>
-			<artifactId>secretsmanager</artifactId>
-		</dependency>
-
 		<!-- AWS S3 -->
 		<dependency>
 			<groupId>software.amazon.awssdk</groupId>
@@ -120,22 +114,17 @@
 		</dependency>
 
 		<!-- H2 Database Dependency -->
+		<!-- H2 is used only by the test profile (see application-test.properties) -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
+			<scope>test</scope>
 		</dependency>
 
 		<!-- LocalStack Module -->
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>localstack</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
 			<scope>test</scope>
 		</dependency>
 

@@ -17,7 +17,9 @@ import software.amazon.awssdk.core.async.AsyncRequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3AsyncClient;
 import software.amazon.awssdk.services.s3.model.HeadObjectRequest;
+import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
@@ -83,20 +85,27 @@ public class TestInfrastructureConfig {
     @Bean("testDestination")
     public StorageDestination testDestination(S3AsyncClient s3AsyncClient) {
         return new StorageDestination() {
+
             @Override
-            public Mono<Boolean> existsAndMatchesSize(String path, long expectedSize) {
+            public Mono<Boolean> matchesSource(String path, String sourceETag, long expectedSize) {
                 HeadObjectRequest request = HeadObjectRequest.builder()
                         .bucket("destination-bucket")
                         .key(path)
                         .build();
 
                 return Mono.fromFuture(s3AsyncClient.headObject(request))
-                        .map(response -> response.contentLength() == expectedSize)
-                        .onErrorResume(e -> Mono.just(false));
+                        .map(response -> {
+                            String stored = response.metadata().get("source_etag");
+                            return stored == null
+                                    ? response.contentLength() == expectedSize
+                                    : stored.replace("\"", "").equals(sourceETag == null ? "" : sourceETag.replace("\"", ""));
+                        })
+                        .onErrorResume(NoSuchKeyException.class, e -> Mono.just(false));
             }
 
             @Override
-            public Mono<Void> uploadStream(String path, Flux<ByteBuffer> byteStream, long contentLength, String contentType) {
+            public Mono<String> uploadStream(String path, Flux<ByteBuffer> byteStream, long contentLength,
+                                             String contentType, String sourceETag) {
                 return byteStream.collectList()
                         .flatMap(chunks -> {
                             try (ByteArrayOutputStream output = new ByteArrayOutputStream()) {
@@ -112,9 +121,11 @@ public class TestInfrastructureConfig {
                                                 .key(path)
                                                 .contentLength((long) payload.length)
                                                 .contentType(contentType)
+                                                .metadata(Map.of("source_etag",
+                                                        sourceETag == null ? "" : sourceETag.replace("\"", "")))
                                                 .build(),
                                         AsyncRequestBody.fromBytes(payload)
-                                )).then();
+                                )).map(PutObjectResponse::eTag);
                             } catch (Exception e) {
                                 return Mono.error(e);
                             }
