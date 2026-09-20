@@ -1,0 +1,31 @@
+# Terraform provider plugins and state - ~1.4GB, never needed to build the app
+**/.terraform/
+**/.terraform.lock.hcl
+**/*.tfstate
+**/*.tfstate.*
+**/*.tfvars
+
+# Build output - the image compiles from source inside the builder stage
+target/
+
+# Logs
+logs/
+test-logs/
+LOGS_IS_UNDEFINED/
+
+# Version control and IDE
+.git/
+.idea/
+.vscode/
+
+# Local Helm overlays (contain credentials)
+**/values-*.yaml
+
+# Kubernetes / infra manifests - not part of the application build
+k8s_minikube/
+ec2/
+filetransfer-chart/
+
+# Local scratch
+.DS_Store
+test*.txt
