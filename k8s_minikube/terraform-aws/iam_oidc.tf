@@ -26,7 +26,9 @@ resource "aws_iam_role" "github_actions_role" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76/TransferFile_S3_Azure:*"
+            # GitHub now sends ID-qualified subjects: repo:<owner>@<ownerId>/<repo>@<repoId>:ref:...
+            # Matching on the immutable numeric IDs also survives a rename of the user or repo.
+            "token.actions.githubusercontent.com:sub" = "repo:PhuocQuang76@37393971/TransferFile_S3_Azure@1356090642:*"
           }
         }
       }

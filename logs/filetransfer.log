@@ -4835,3 +4835,6 @@ java.nio.file.AccessDeniedException: Access denied
 2026-09-19 17:29:20,810 [reactor-http-nio-3] INFO  c.s.f.service.TransferService - Starting transfer run [969d7b5b-20ed-4474-a284-0ce60fabc581] (prefix=null, extension=null, overwrite=true)
 2026-09-19 17:29:20,810 [reactor-http-nio-3] INFO  c.s.filetransfer.adapter.S3Service - Listing objects reactively from S3 bucket [aileen-bucket-011243863866] with prefix [null] and extension [null]
 2026-09-19 17:29:21,422 [sdk-async-response-1-0] INFO  c.s.f.service.TransferService - Run [969d7b5b-20ed-4474-a284-0ce60fabc581] finished: discovered=0, transferred=0, skipped=0, failed=0, duration=613ms
+2026-09-19 17:46:28,746 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=52s511ms).
+2026-09-19 18:01:23,355 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=9m24s427ms).
+2026-09-19 18:09:08,825 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=7m15s435ms).
