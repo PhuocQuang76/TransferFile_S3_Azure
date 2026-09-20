@@ -137,3 +137,95 @@ StorageSource  StorageDestination  TransferResultStore    ◄── PORTS (inter
 S3Service      AzureBlobService   JpaTransferResultStore  ◄── ADAPTERS
    │                │                     │
 AWS S3         Azure Blob              MySQL
+
+------------
+ERROR CODE
+
+S3Exception         	AWS SDK 	S3 replied with an error — status inside
+BlobStorageException	Azure SDK	Azure replied with an error — status inside
+IllegalStateException	your code	your own validation failed (no eTag)
+TimeoutException    	Reactor	    nothing happened within 10 minutes
+ConnectException    	JDK sockets	couldn't reach the host at all — not credentials
+
+
+
+
+
+
+
+
+
+
+------------------------ RUN MINIKUBE ----------------------
+# 1. BUILD the image (doesn't run it) — compiles from source inside the container
+docker build -t filetransfer:local .
+
+# 2. COPY it into minikube's Docker daemon (separate from your Mac's)
+minikube image load filetransfer:local
+
+# 3. DEPLOY — Helm renders the chart into Kubernetes objects
+#    (Deployment, Service, Secret, HPA) and Kubernetes runs them
+helm upgrade --install filetransfer ./filetransfer-chart -f filetransfer-chart/values-minikube.yaml
+
+# 4. VERIFY
+kubectl get pods
+
+# It creates a tunnel from your Mac into the pod.
+# Run it and leave that terminal open
+kubectl port-forward deployment/filetransfer-filetransfer 8586:8586
+
+your Mac                          minikube cluster
+localhost:8586  ──── tunnel ────►  pod :8586
+                                   (filetransfer)
+
+kubectl port-forward deployment/filetransfer-filetransfer 8586:8586
+                     └──────────── target ────────────┘  └──┬──┘
+                                                      local:pod port
+
+# Why you need it
+Your Service is ClusterIP:
+service/filetransfer-filetransfer   ClusterIP   10.100.214.209   <none>   8586/TCP
+ClusterIP means reachable only from inside the cluster. That 10.100.x.x address doesn't
+exist on your Mac's network — curl can't reach it. Port-forward bridges the gap.
+
+
+# Then open a second terminal and run:
+curl -s http://localhost:8586/actuator/health
+Expect {"status":"UP"}.
+
+# Then the transfer:
+curl -s -X POST "http://localhost:8586/api/v1/transfer?overwrite=true" | python3 -m json.tool
+
+
+---------------------------------
+# LOAD TESTING USING HEY# 
+# Terminal 1 — keep port-forward running
+kubectl port-forward deployment/filetransfer-filetransfer 8586:8586
+
+# Terminal 2 — watch the HPA live
+kubectl get hpa -w
+
+kubectl get hpa  -w
+                └── watch
+It shows your HorizontalPodAutoscaler and then keeps the terminal open, printing a new line every time something changes — instead of printing once and exiting.
+
+# Terminal 3 — generate load
+hey -z 60s -c 50 http://localhost:8586/actuator/health
+hey is a load-testing tool — it hammers a URL with many simultaneous requests so you can see how the app behaves under pressure.
+
+hey  -z 60s  -c 50  http://localhost:8586/actuator/health
+    └──┬──┘ └──┬─┘ └──────────────┬─────────────────────┘
+    run for   50 concurrent      the URL to hit
+    60 secs   workers
+
+# What you should see
+Within 15–30 seconds the HPA's TARGETS column climbs past 70%, then REPLICAS starts increasing:
+
+NAME          TARGETS      MINPODS  MAXPODS  REPLICAS
+...hpa        cpu: 4%/70%     1        5         1
+...hpa        cpu: 180%/70%   1        5         1
+...hpa        cpu: 180%/70%   1        5         3
+...hpa        cpu: 95%/70%    1        5         5
+
+# Confirm pod number
+kubectl get pods will show new pods appearing.

@@ -119,7 +119,7 @@ kubectl get pods -w
 # How to Enable Auto-Scaling
 kubectl autoscale deployment filetransfer-filetransfer --cpu-percent=70 --min=1 --max=5
 
-### LOAD TESTIN USING HEY  ###
+### LOAD TESTING USING HEY  ###
 brew install hey
 
 ### Step-by-Step to Set Up and Test HPA

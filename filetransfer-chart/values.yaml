@@ -12,6 +12,8 @@ service:
 
 env:
   springProfilesActive: "dev"
+  eventHubEnabled: "false"
+  eventHubName: "file-transfers"
   serverPort: 8586
   awsRegion: "us-east-1"
 
@@ -28,6 +30,7 @@ secret:
     SPRING_DATASOURCE_USERNAME: ""
     SPRING_DATASOURCE_PASSWORD: ""
     SPRING_DATASOURCE_DRIVER_CLASS_NAME: ""
+    AZURE_EVENTHUB_CONNECTION_STRING: ""
 
 resources:
   requests:

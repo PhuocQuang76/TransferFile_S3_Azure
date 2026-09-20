@@ -2,6 +2,7 @@ package com.synergisticit.filetransfer.config;
 
 import com.synergisticit.filetransfer.service.interfaces.StorageDestination;
 import com.synergisticit.filetransfer.service.interfaces.StorageSource;
+import com.synergisticit.filetransfer.service.interfaces.TransferEventPublisher;
 import com.synergisticit.filetransfer.service.TransferService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -35,6 +36,7 @@ public class TransferConfig {
      * 
      * @param sources Map of all StorageSource beans (bean name -> implementation)
      * @param destinations Map of all StorageDestination beans (bean name -> implementation)
+     * @param eventPublisher Publishes per-file outcomes; a no-op when Event Hubs is disabled
      * @param sourceType Configuration property specifying which source to use
      * @param destinationType Configuration property specifying which destination to use
      * @param concurrencyLimit Maximum concurrent file transfers
@@ -45,6 +47,7 @@ public class TransferConfig {
     public TransferService transferService(
             Map<String, StorageSource> sources,
             Map<String, StorageDestination> destinations,
+            TransferEventPublisher eventPublisher,
             @Value("${storage.source:s3Service}") String sourceType,
             @Value("${storage.destination:azureBlobService}") String destinationType,
             @Value("${transfer.concurrency:5}") int concurrencyLimit,
@@ -70,6 +73,8 @@ public class TransferConfig {
                 sourceType, source.getSourceIdentifier(),
                 destinationType, destination.getDestinationIdentifier());
         
-        return new TransferService(source, destination, concurrencyLimit, deleteAfterTransfer);
+        log.info("Transfer events will be published by [{}]", eventPublisher.getClass().getSimpleName());
+
+        return new TransferService(source, destination, eventPublisher, concurrencyLimit, deleteAfterTransfer);
     }
 }

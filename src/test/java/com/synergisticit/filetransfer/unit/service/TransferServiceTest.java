@@ -7,11 +7,13 @@ import com.synergisticit.filetransfer.model.TransferResult;
 import com.synergisticit.filetransfer.service.TransferService;
 import com.synergisticit.filetransfer.service.interfaces.StorageDestination;
 import com.synergisticit.filetransfer.service.interfaces.StorageSource;
+import com.synergisticit.filetransfer.service.interfaces.TransferEventPublisher;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -44,13 +46,17 @@ class TransferServiceTest {
     @Mock
     private StorageDestination destination;
 
+    @Mock
+    private TransferEventPublisher eventPublisher;
+
     private TransferService transferService;
 
     //Marks setUp() to run before every individual @Test method.2
     @BeforeEach
     void setUp() {
-        transferService = new TransferService(source, destination, 5, false);
+        transferService = new TransferService(source, destination, eventPublisher, 5, false);
         lenient().when(source.getObjectStream(anyString())).thenReturn(Flux.empty());
+        lenient().when(eventPublisher.publish(any())).thenReturn(Mono.empty());
     }
 
     @Test
@@ -89,6 +95,52 @@ class TransferServiceTest {
         verify(source).getObjectMetadata("test.txt");
         verify(destination).matchesSource(eq("test.txt"), any(), eq(100L));
         verify(destination).uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"), any());
+    }
+
+    @Test
+    @DisplayName("Should publish an event for a successful transfer")
+    void testExecuteTransfer_PublishesEventOnSuccess() {
+        StorageObject mockFile = StorageObject.builder().key("test.txt").size(100L).build();
+        StorageMetadata metadata = StorageMetadata.builder()
+                .contentType("text/plain")
+                .contentLength(100L)
+                .build();
+
+        when(source.listObjects(null, null)).thenReturn(Flux.just(mockFile));
+        when(source.getObjectMetadata("test.txt")).thenReturn(Mono.just(metadata));
+        when(source.getSourceIdentifier()).thenReturn("test-bucket");
+        when(destination.matchesSource(eq("test.txt"), any(), eq(100L))).thenReturn(Mono.just(false));
+        when(destination.uploadStream(eq("test.txt"), any(), eq(100L), eq("text/plain"), any()))
+                .thenReturn(Mono.just("dest-etag"));
+
+        StepVerifier.create(transferService.executeTransfer(null, null, false))
+                .expectNextCount(1)
+                .verifyComplete();
+
+        ArgumentCaptor<TransferResult> published = ArgumentCaptor.forClass(TransferResult.class);
+        verify(eventPublisher).publish(published.capture());
+        assertEquals("test.txt", published.getValue().getFileName());
+        assertEquals(TransferStatus.TRANSFERRED, published.getValue().getStatus());
+    }
+
+    @Test
+    @DisplayName("Should publish an event for a failed transfer, not only for successes")
+    void testExecuteTransfer_PublishesEventOnFailure() {
+        StorageObject mockFile = StorageObject.builder().key("bad.txt").size(100L).build();
+
+        when(source.listObjects(null, null)).thenReturn(Flux.just(mockFile));
+        when(source.getObjectMetadata("bad.txt"))
+                .thenReturn(Mono.error(new FileNotFoundException("gone")));
+        when(source.getSourceIdentifier()).thenReturn("test-bucket");
+
+        StepVerifier.create(transferService.executeTransfer(null, null, false))
+                .assertNext(summary -> assertEquals(1, summary.getTotalFailed()))
+                .verifyComplete();
+
+        ArgumentCaptor<TransferResult> published = ArgumentCaptor.forClass(TransferResult.class);
+        verify(eventPublisher).publish(published.capture());
+        assertEquals(TransferStatus.FAILED, published.getValue().getStatus());
+        assertEquals(404, published.getValue().getErrorCode());
     }
 
     @Test
@@ -292,7 +344,7 @@ class TransferServiceTest {
     @DisplayName("Should NOT delete the source when the upload returns no proof of the write")
     void testSourceKeptWhenUploadUnverified() {
         // deleteAfterTransfer = true: this is the configuration where getting it wrong loses files
-        transferService = new TransferService(source, destination, 5, true);
+        transferService = new TransferService(source, destination, eventPublisher, 5, true);
 
         StorageObject mockFile = StorageObject.builder().key("test.txt").size(100L).eTag("\"abc123\"").build();
         when(source.listObjects(any(), any())).thenReturn(Flux.just(mockFile));
@@ -318,7 +370,7 @@ class TransferServiceTest {
     @Test
     @DisplayName("Should delete the source only once the upload is confirmed by an eTag")
     void testSourceDeletedWhenUploadConfirmed() {
-        transferService = new TransferService(source, destination, 5, true);
+        transferService = new TransferService(source, destination, eventPublisher, 5, true);
 
         StorageObject mockFile = StorageObject.builder().key("test.txt").size(100L).eTag("\"abc123\"").build();
         when(source.listObjects(any(), any())).thenReturn(Flux.just(mockFile));

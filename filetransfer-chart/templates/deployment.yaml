@@ -80,3 +80,13 @@ spec:
                   name: {{ .Values.secret.name }}
                   key: SPRING_DATASOURCE_DRIVER_CLASS_NAME
                   optional: true
+            - name: AZURE_EVENTHUB_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.secret.name }}
+                  key: AZURE_EVENTHUB_CONNECTION_STRING
+                  optional: true
+            - name: AZURE_EVENTHUB_ENABLED
+              value: {{ .Values.env.eventHubEnabled | default "false" | quote }}
+            - name: AZURE_EVENTHUB_EVENT_HUB_NAME
+              value: {{ .Values.env.eventHubName | default "file-transfers" | quote }}
