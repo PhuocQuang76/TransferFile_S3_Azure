@@ -23,12 +23,6 @@ variable "db_username" {
   default = "root"
 }
 
-variable "db_password" {
-  type        = string
-  description = "Database master password"
-  sensitive   = true
-}
-
 variable "db_instance_class" {
   type    = string
   default = "db.t4g.micro"
@@ -50,16 +44,4 @@ variable "github_repository" {
   type        = string
   description = "The GitHub repository name"
   default     = "PhuocQuang76/TransferFile_S3_Azure"
-}
-
-variable "aws_access_key_id" {
-  type        = string
-  description = "AWS Access Key ID for the application"
-  sensitive   = true
-}
-
-variable "aws_secret_access_key" {
-  type        = string
-  description = "AWS Secret Access Key for the application"
-  sensitive   = true
 }
